@@ -1,0 +1,5 @@
+CoCl4 xtb,opt,freq,dd
+Co_aq6 xtb,opt,freq,dd
+CoCl2_aq4 xtb,opt,freq
+CoCl3_aq1 xtb,opt,freq
+CoCl1_aq5 xtb,opt,freq

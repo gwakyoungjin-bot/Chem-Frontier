@@ -1,0 +1,100 @@
+====================================================================
+일요일 아침 보고서 — 2026-09-26 23:46
+====================================================================
+
+[1] 대칭 안장점 재계산
+  라운드 1회 수행, 총 소요 1.3시간
+  합격 기준: 허수진동수 최대 크기 <= 50 cm-1
+
+  종            합격       허수개수     최대cm-1  
+  Ni_aq6       YES      0        0       
+  NiCl2_aq4    YES      0        0       
+
+  본 폴더에 설치된 종: Ni_aq6, NiCl2_aq4
+
+[2] 후처리
+  --- speciation.py (rc=1) ---
+    ⚠ 허수진동수 발견 — dG 신뢰도 저하:
+        NiCl1_aq5: 허수 1개 (최대 28 cm-1)
+       50 cm-1 이하면 무시 가능(물 회전). 크면 그 종을 재최적화할 것.
+    
+    반응 열역학 (Ni_aq6 기준, 보정 전)
+      Ni_aq6      n(Cl)=0  Oh   dH=    +0.0 kJ/mol  dS=   -0.0 J/mol/K  dG(60C)=    +0.0
+      NiCl1_aq5   n(Cl)=1  Oh   dH=   -58.9 kJ/mol  dS=  +17.1 J/mol/K  dG(60C)=   -64.6
+      NiCl2_aq4   n(Cl)=2  Oh   dH=  -107.9 kJ/mol  dS=  +55.1 J/mol/K  dG(60C)=  -126.2
+      NiCl3_aq1   n(Cl)=3  Td   dH=   -76.7 kJ/mol  dS= +366.7 J/mol/K  dG(60C)=  -198.9
+      NiCl4       n(Cl)=4  Td   dH=  -114.4 kJ/mol  dS= +388.6 J/mol/K  dG(60C)=  -243.9
+    
+    보정 (실측 앵커 2점)
+      앵커1 Hartley 2025 : 95 C, x=0.333 에서 f_Td=0.50
+      앵커2 우리 UV-Vis  : 60 C, x=0.95 에서 f_Td=0.05 (미검출 환산, a_W=1.00)
+      -> shift = +68.8 kJ/mol per Cl-,  alpha = 0.0935
+         |shift| > 50 이면 dG 자체를 의심할 것 (이온 용매화 오차 통상 범위)
+    Traceback (most recent call last):
+      File "/home/users/navy030303/dft_ni_complexes/speciation.py", line 570, in <module>
+        main()
+      File "/home/users/navy030303/dft_ni_complexes/speciation.py", line 543, in main
+        if extra:
+           ^^^^^
+    NameError: name 'extra' is not defined
+
+  --- extract_dd.py (rc=0) ---
+    === NiCl4 ===  전이 4개  |  Σf=2.680e-04  eps_max≈13.2 M-1cm-1
+          479.3 nm  (   20864 cm-1)  f=1.21e-04  eps≈   13.2
+          485.8 nm  (   20585 cm-1)  f=1.88e-05  eps≈    2.0
+          523.3 nm  (   19109 cm-1)  f=1.11e-04  eps≈   12.1
+          531.7 nm  (   18808 cm-1)  f=1.71e-05  eps≈    1.9
+       LFT| Racah Parameters :
+       LFT| Racah Parameters :
+    
+    === Ni_aq6 ===  전이 13개  |  Σf=0.000e+00  eps_max≈0.0 M-1cm-1
+          355.8 nm  (   28106 cm-1)  f=0.00e+00  eps≈    0.0
+          361.0 nm  (   27701 cm-1)  f=0.00e+00  eps≈    0.0
+          361.8 nm  (   27640 cm-1)  f=0.00e+00  eps≈    0.0
+          363.3 nm  (   27525 cm-1)  f=0.00e+00  eps≈    0.0
+          368.5 nm  (   27137 cm-1)  f=0.00e+00  eps≈    0.0
+          696.3 nm  (   14362 cm-1)  f=0.00e+00  eps≈    0.0
+          706.9 nm  (   14146 cm-1)  f=0.00e+00  eps≈    0.0
+          722.4 nm  (   13843 cm-1)  f=0.00e+00  eps≈    0.0
+          852.5 nm  (   11730 cm-1)  f=0.00e+00  eps≈    0.0
+          871.1 nm  (   11480 cm-1)  f=0.00e+00  eps≈    0.0
+          895.9 nm  (   11162 cm-1)  f=0.00e+00  eps≈    0.0
+         1064.2 nm  (    9397 cm-1)  f=0.00e+00  eps≈    0.0
+         1215.6 nm  (    8226 cm-1)  f=0.00e+00  eps≈    0.0
+       LFT| Racah Parameters :
+       LFT| Racah Parameters :
+    
+    -> dd_bands.csv (17행)
+    
+    ======================================================================
+    화학종별 인텐시티 (가시영역 350-800 nm 합)
+    화학종                     Σf    eps_max    Ni_aq6 대비  기하
+    NiCl4            2.680e-04       29.1       (기준≈0)  Td (중심대칭 없음)
+    Ni_aq6           0.000e+00        0.0       (기준≈0)  Oh (중심대칭)
+    
+    [반드시 읽을 것] 팔면체(Oh) 화학종의 계산 세기는 숫자 그대로 쓰지 마세요.
+      Oh는 중심대칭이라 d-d 전이가 Laporte 금지 -> 정적 계산에서 f≈0이 '정답'입니다.
+      실험에서 보이는 Oh의 약한 흡수(eps 1~10)는 진동-전자 결합(vibronic coupling)
+      때문인데 이 계산에는 그 항이 없습니다.
+      => Td/Oh 세기비를 인용하지 말 것. "Td가 자릿수로 더 세다"는 대칭성(Laporte 규칙)
+         논증으로 말하고, 계산은 Td 정량값 제공 + Oh≈0 확인 용도로만 쓰세요.
+    -> dd_spectra.png
+
+[3] 다음에 볼 것
+  - speciation.csv / guideline_map.png : 조성-온도 지도
+  - dd_bands.csv / dd_spectra.png      : d-d 밴드와 eps
+  - overnight.log                      : 밤새 진행 로그 전체
+  - saddle_backup/                     : 교체 전 원본(안장점) 결과
+
+  확인 포인트: shift 절대값이 50 kJ/mol 아래로 내려왔는지.
+  아직 크면 dG 자체에 남은 문제가 있다는 뜻입니다.
+
+[4] 이 실행이 건드리지 않은 것 (알고 있어야 할 한계)
+  - d-d 계산(dd_bands.csv)은 교체 전 기하로 돌린 결과 그대로입니다.
+    d-d 에너지는 Ni-리간드 거리가 지배하고 물 배향에는 둔감하므로 큰 영향은
+    없지만, 엄밀히 하려면 Ni_aq6 의 dd 를 새 기하로 다시 돌려야 합니다.
+  - NiCl4 계산 파장(479-532 nm)은 문헌(~660-700 nm)보다 에너지가 약 35% 높습니다.
+    CAS(8,5) 의 double-shell 누락 탓입니다. 절대 파장은 인용하지 마세요.
+  - 계산 eps(Td) 합계는 약 29 M-1cm-1 로 문헌값(150-200)보다 작습니다.
+    CASSCF 가 d-d 진동자세기를 과소평가하는 알려진 문제입니다.
+    검출한계 논증에 어느 값을 쓸지 정하고, 그 선택을 보고서에 밝히세요.

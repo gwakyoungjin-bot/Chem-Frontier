@@ -1,0 +1,31 @@
+[09-24 00:25] NiCl4 xtb OK try=1 1s 
+[09-24 00:28] NiCl4 opt OK try=1 169s 
+[09-24 00:32] NiCl4 freq OK try=1 259s 
+[09-24 00:33] H2O xtb OK try=1 1s 
+[09-24 00:33] Cl_ion sp OK try=1 1s 
+[09-24 00:33] Cl_ion DONE (sp only)
+[09-24 00:33] Ni_aq6 xtb OK try=1 1s 
+[09-24 00:33] NiCl2_aq4 xtb OK try=1 2s 
+[09-24 00:33] NiCl3_aq1 xtb OK try=1 2s 
+[09-24 00:33] NiCl1_aq5 xtb OK try=1 3s 
+[09-24 00:33] H2O opt OK try=1 6s 
+[09-24 00:33] H2O freq OK try=1 24s 
+[09-24 00:33] H2O DONE
+[09-24 00:34] NiCl4 dd OK try=1 114s 
+[09-24 00:34] NiCl4 DONE
+[09-24 00:40] Ni_aq6 opt OK try=1 403s 
+[09-24 00:45] NiCl2_aq4 opt OK try=1 723s 
+[09-24 00:49] NiCl3_aq1 opt OK try=1 974s 
+[09-24 00:57] NiCl3_aq1 freq OK try=1 469s 
+[09-24 00:57] NiCl3_aq1 DONE
+[09-24 01:19] NiCl2_aq4 freq OK try=1 2028s 
+[09-24 01:19] NiCl2_aq4 DONE
+[09-24 01:32] Ni_aq6 freq OK try=1 3145s 
+[09-24 01:33] Ni_aq6 dd FAIL try=1 81s 
+[09-24 01:39] Ni_aq6 dd FAIL try=2 347s [SlowConv]
+[09-24 01:42] Ni_aq6 dd2 OK try=1 154s 
+[09-24 01:42] Ni_aq6 dd 축소판 성공(삼중항만) - 가시영역 밴드는 전부 포함됨
+[09-24 01:42] Ni_aq6 DONE
+[09-24 02:13] NiCl1_aq5 opt OK try=1 5973s 
+[09-24 03:00] NiCl1_aq5 freq OK try=1 2834s 
+[09-24 03:00] NiCl1_aq5 DONE

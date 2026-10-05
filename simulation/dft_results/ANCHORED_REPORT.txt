@@ -1,0 +1,60 @@
+==========================================================================
+금속별 독립 앵커 보정
+==========================================================================
+  Ni  shift =    +65.1 kJ/mol per Cl-
+      앵커: Hartley 2025 (10.1021/acs.jpcc.5c05771): ChCl:EG 1:2, x_H2O=0.045, Oh->Td 전환 90~100 C -> 95 C 에서 f_Td=0.50
+      확인: a=1.832e-01, T=95 C -> f_Td=0.500 (목표 0.50)
+  Co  shift =    +67.7 kJ/mol per Cl-
+      앵커: Mannucci 2026 (10.1021/acs.inorgchem.6c01344): ChCl/CoCl2.6H2O 1:2, x_H2O=0.80, XAS+MCR 로 Td 40% (실온). 활동도는 ChCl+H2O 이성분 근사
+      확인: a=1.391e-02, T=25 C -> f_Td=0.400 (목표 0.40)
+  Mn  shift =    +67.7 kJ/mol per Cl-  ** Co 것을 빌림 — 앵커 없음(미보정) **
+
+⚠ 허수진동수 (준조화 보정 적용됨):
+    NiCl1_aq5: 허수 1개 (최대 28 cm-1)
+    Co_aq6: 허수 2개 (최대 142 cm-1)
+    CoCl1_aq5: 허수 1개 (최대 125 cm-1)
+    Mn_aq6: 허수 5개 (최대 111 cm-1)
+    MnCl1_aq5: 허수 1개 (최대 136 cm-1)
+    MnCl2_aq4: 허수 1개 (최대 65 cm-1)
+
+독립 검증 (앵커로 쓰지 않음)
+  Busato 2022 (10.1021/acs.inorgchem.2c00864): 염화물 과잉 MDES 실온에서 Ni 완전 팔면체(f_Td=0). 모델이 실온에서 f_Td<0.05 면 통과.
+  -> 우리 계 최대 염화물(x=0.95), 25 C 에서 f_Td(Ni) = 0.0000  [통과]
+
+전환선 (f_Td = 0.5 가 되는 온도, °C).  <25 = 범위 아래, >125 = 범위 위
+  x(ChCl)  Ni         Co         Mn        
+  0.05     >125       >125       >125      
+  0.10     >125       >125       >125      
+  0.15     >125       >125       >125      
+  0.20     >125       >125       >125      
+  0.25     >125       >125       >125      
+  0.30     >125       >125       >125      
+  0.35     >125       >125       >125      
+  0.40     >125       >125       >125      
+  0.45     >125       124        >125      
+  0.50     >125       114        >125      
+  0.55     >125       104        >125      
+  0.60     >125       95         >125      
+  0.65     >125       86         120       
+  0.70     >125       77         110       
+  0.75     >125       68         101       
+  0.80     >125       60         93        
+  0.85     >125       51         84        
+  0.90     >125       43         76        
+  0.95     >125       35         68        
+
+wrote /home/users/navy030303/dft_ni_complexes/window.csv
+
+60 °C 측정 5조성의 사면체 분율
+  시료     x      a_ChCl      Ni        Co        Mn       
+  1:19   0.05   2.84e-07    0.0000    0.0000    0.0000   
+  3:17   0.15   2.76e-06    0.0000    0.0000    0.0000   
+  1:4    0.20   6.50e-06    0.0000    0.0000    0.0000   
+  3:1    0.75   3.94e-03    0.0000    0.2424    0.0049   
+  19:1   0.95   1.69e-02    0.0000    0.9614    0.2780   
+wrote /home/users/navy030303/dft_ni_complexes/ftd_60C.csv
+wrote /home/users/navy030303/dft_ni_complexes/shifts.csv
+wrote /home/users/navy030303/dft_ni_complexes/window_map.png
+wrote /home/users/navy030303/dft_ni_complexes/figure_styles/C_categorical.png
+wrote /home/users/navy030303/dft_ni_complexes/figure_styles/B_regime_viridis.png
+wrote /home/users/navy030303/dft_ni_complexes/figure_styles/A_viridis_panels.png

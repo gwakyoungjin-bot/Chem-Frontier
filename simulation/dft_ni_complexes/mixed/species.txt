@@ -1,0 +1,3 @@
+NiCl2_H3Cit_aq2
+CoCl2_H3Cit_aq2
+MnCl2_H3Cit_aq2

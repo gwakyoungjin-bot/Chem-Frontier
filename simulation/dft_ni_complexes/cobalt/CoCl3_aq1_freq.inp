@@ -1,0 +1,6 @@
+! r2SCAN-3c NumFreq CPCM(water)
+%freq Temp 298.15, 333.15 end
+%cpcm smd true SMDsolvent "water" end
+%pal nprocs 1 end
+%maxcore 6000
+* xyzfile -1 4 CoCl3_aq1_opt.xyz

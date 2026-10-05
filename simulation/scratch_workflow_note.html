@@ -1,0 +1,507 @@
+<style>
+:root{
+  --bg:#EEF2EF; --surface:#FFFFFF; --surface-2:#E4EAE6;
+  --ink:#17211D; --ink-soft:#55635C; --line:#D6DDD8;
+  --accent:#B8622C; --accent-soft:#F1E1D2; --accent-ink:#7A3F1B;
+  --teal:#2C6F62; --teal-soft:#DCEEE8;
+  --gold:#8A6D1D; --gold-soft:#F5ECD2;
+  --red:#9B3A32; --red-soft:#F5E1DE;
+  --dh:#B8622C; --dh-soft:#F1E1D2;
+  --yj:#2C6F62; --yj-soft:#DCEEE8;
+  --mi:#3B6E91; --mi-soft:#DCE6EC;
+  --mg:#7A5C8A; --mg-soft:#E9E1EE;
+  --font-kr:'Pretendard Variable',Pretendard,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  --font-mono:ui-monospace,'SF Mono','Cascadia Mono',Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#121815; --surface:#1A2119; --surface-2:#212A22;
+    --ink:#E8ECE8; --ink-soft:#9FADA3; --line:#2B342E;
+    --accent:#E08A4F; --accent-soft:#3A2A1C; --accent-ink:#F0B080;
+    --teal:#64A99B; --teal-soft:#1C332D;
+    --gold:#D9B85B; --gold-soft:#3A311A;
+    --red:#E08277; --red-soft:#3A211E;
+    --dh:#E08A4F; --dh-soft:#3A2A1C;
+    --yj:#64A99B; --yj-soft:#1C332D;
+    --mi:#7FADCF; --mi-soft:#1C2A33;
+    --mg:#B79DC7; --mg-soft:#2C2433;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121815; --surface:#1A2119; --surface-2:#212A22;
+  --ink:#E8ECE8; --ink-soft:#9FADA3; --line:#2B342E;
+  --accent:#E08A4F; --accent-soft:#3A2A1C; --accent-ink:#F0B080;
+  --teal:#64A99B; --teal-soft:#1C332D;
+  --gold:#D9B85B; --gold-soft:#3A311A;
+  --red:#E08277; --red-soft:#3A211E;
+  --dh:#E08A4F; --dh-soft:#3A2A1C;
+  --yj:#64A99B; --yj-soft:#1C332D;
+  --mi:#7FADCF; --mi-soft:#1C2A33;
+  --mg:#B79DC7; --mg-soft:#2C2433;
+}
+:root[data-theme="light"]{
+  --bg:#EEF2EF; --surface:#FFFFFF; --surface-2:#E4EAE6;
+  --ink:#17211D; --ink-soft:#55635C; --line:#D6DDD8;
+  --accent:#B8622C; --accent-soft:#F1E1D2; --accent-ink:#7A3F1B;
+  --teal:#2C6F62; --teal-soft:#DCEEE8;
+  --gold:#8A6D1D; --gold-soft:#F5ECD2;
+  --red:#9B3A32; --red-soft:#F5E1DE;
+  --dh:#B8622C; --dh-soft:#F1E1D2;
+  --yj:#2C6F62; --yj-soft:#DCEEE8;
+  --mi:#3B6E91; --mi-soft:#DCE6EC;
+  --mg:#7A5C8A; --mg-soft:#E9E1EE;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-kr);line-height:1.65;word-break:keep-all;}
+.wrap{max-width:920px;margin:0 auto;padding:2.5rem 1.25rem 6rem;}
+.masthead{padding:2.25rem 1.5rem 2rem;background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:1.25rem;}
+.eyebrow{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink);font-weight:600;}
+h1{font-size:1.7rem;margin:.5rem 0 .35rem;text-wrap:balance;letter-spacing:-.01em;}
+.sub{color:var(--ink-soft);font-size:.95rem;margin:0 0 1rem;}
+.meta-row{display:flex;flex-wrap:wrap;gap:.5rem;font-size:.8rem;}
+.meta-chip{background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:.3rem .7rem;color:var(--ink-soft);font-family:var(--font-mono);}
+.tldr{background:var(--accent-soft);border:1px solid var(--accent);border-radius:10px;padding:1rem 1.2rem;margin-top:1.1rem;font-size:.92rem;}
+.tldr b{color:var(--accent-ink);}
+nav.toc{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 2rem;}
+nav.toc a{font-size:.82rem;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:.4rem .85rem;color:var(--ink);text-decoration:none;}
+nav.toc a:hover{border-color:var(--accent);color:var(--accent-ink);}
+section{margin-bottom:3rem;scroll-margin-top:1rem;}
+.sec-head{display:flex;align-items:baseline;gap:.6rem;margin-bottom:1rem;border-bottom:2px solid var(--line);padding-bottom:.6rem;}
+.sec-num{font-family:var(--font-mono);color:var(--accent);font-weight:700;font-size:.85rem;}
+h2{font-size:1.25rem;margin:0;text-wrap:balance;}
+h3{font-size:1.02rem;margin:1.4rem 0 .5rem;}
+p{margin:.5rem 0;}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:1.1rem 1.3rem;margin-bottom:.9rem;}
+.grid-flow{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:1rem;}
+@media (max-width:720px){.grid-flow{grid-template-columns:1fr;}}
+.flow-box{background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:1rem;text-align:center;}
+.flow-box .tag{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);}
+.flow-box .who{margin-top:.35rem;font-weight:700;font-size:.98rem;}
+.flow-box .desc{font-size:.8rem;color:var(--ink-soft);margin-top:.3rem;}
+.flow-arrow{display:flex;align-items:center;justify-content:center;color:var(--ink-soft);font-size:1.3rem;}
+@media (max-width:720px){.flow-arrow{transform:rotate(90deg);}}
+.converge{background:var(--teal-soft);border:1.5px solid var(--teal);border-radius:12px;padding:1.1rem 1.3rem;text-align:center;font-weight:700;color:var(--ink);}
+.converge span{display:block;font-weight:400;font-size:.83rem;color:var(--ink-soft);margin-top:.3rem;}
+.discuss-item{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:8px;padding:1rem 1.2rem;margin-bottom:.85rem;}
+.discuss-item .num{font-family:var(--font-mono);color:var(--gold);font-weight:700;font-size:.85rem;}
+.discuss-item .q{background:var(--gold-soft);border-radius:6px;padding:.5rem .7rem;margin:.5rem 0;font-size:.88rem;}
+.discuss-item .rec{font-size:.88rem;margin-top:.4rem;}
+.discuss-item .rec b{color:var(--teal);}
+table{width:100%;border-collapse:collapse;font-size:.87rem;}
+th,td{border:1px solid var(--line);padding:.55rem .65rem;text-align:left;vertical-align:top;}
+th{background:var(--surface-2);font-weight:700;font-size:.8rem;}
+.tbl-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--line);}
+.tbl-wrap table{border:none;}
+.tbl-wrap th,.tbl-wrap td{border:none;border-bottom:1px solid var(--line);}
+.term-wrong{color:var(--red);text-decoration:line-through;font-size:.85rem;}
+.term-right{color:var(--teal);font-weight:700;}
+.badge{display:inline-block;font-family:var(--font-mono);font-size:.68rem;padding:.15rem .5rem;border-radius:999px;font-weight:700;}
+.b-dh{background:var(--dh-soft);color:var(--dh);}
+.b-yj{background:var(--yj-soft);color:var(--yj);}
+.b-mi{background:var(--mi-soft);color:var(--mi);}
+.b-mg{background:var(--mg-soft);color:var(--mg);}
+.b-all{background:var(--surface-2);color:var(--ink-soft);}
+.verdict{border-radius:10px;padding:1rem 1.2rem;margin:.9rem 0;font-size:.9rem;}
+.verdict.ok{background:var(--teal-soft);border:1px solid var(--teal);}
+.verdict.warn{background:var(--gold-soft);border:1px solid var(--gold);}
+.cite{font-family:var(--font-mono);font-size:.72rem;color:var(--ink-soft);}
+.role-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:1.1rem 1.3rem;margin-bottom:1rem;border-top:4px solid var(--line);}
+.role-card h3{margin-top:0;display:flex;align-items:center;gap:.5rem;}
+.role-card ul{margin:.4rem 0;padding-left:1.2rem;}
+.role-card li{margin:.25rem 0;font-size:.88rem;}
+.role-card .caution{background:var(--gold-soft);border-radius:6px;padding:.5rem .7rem;font-size:.82rem;margin-top:.6rem;}
+.cal-wrap{overflow-x:auto;}
+.cal{width:100%;border-collapse:collapse;font-size:.82rem;min-width:640px;}
+.cal th{background:var(--surface-2);padding:.6rem;text-align:left;}
+.cal td{border:1px solid var(--line);padding:.6rem;vertical-align:top;}
+.cal .wk-label{font-family:var(--font-mono);font-weight:700;white-space:nowrap;background:var(--surface-2);}
+.cal .wk-date{display:block;font-size:.72rem;color:var(--ink-soft);font-weight:400;}
+.cal a{color:var(--ink);text-decoration:none;font-size:.8rem;}
+.cal a:hover{color:var(--accent-ink);text-decoration:underline;}
+.milestones{display:flex;flex-wrap:wrap;gap:.6rem;margin:1rem 0 1.5rem;}
+.mstone{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:.5rem .8rem;font-size:.78rem;}
+.mstone b{font-family:var(--font-mono);color:var(--accent-ink);display:block;font-size:.72rem;}
+.week-detail{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:1.2rem 1.4rem;margin-bottom:1.2rem;scroll-margin-top:1rem;}
+.week-detail h3{margin-top:0;padding-bottom:.5rem;border-bottom:1px solid var(--line);}
+.person-block{margin:.9rem 0;padding-left:.9rem;border-left:3px solid var(--line);}
+.person-block.dh{border-color:var(--dh);}
+.person-block.yj{border-color:var(--yj);}
+.person-block.mi{border-color:var(--mi);}
+.person-block.mg{border-color:var(--mg);}
+.person-block .name{font-weight:700;font-size:.9rem;margin-bottom:.25rem;}
+.person-block ul{margin:.3rem 0;padding-left:1.1rem;font-size:.87rem;}
+.person-block li{margin:.2rem 0;}
+.reason-pair{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin:.8rem 0;}
+@media (max-width:640px){.reason-pair{grid-template-columns:1fr;}}
+.reason-pair .box{border-radius:8px;padding:.7rem .9rem;font-size:.85rem;}
+.reason-pair .before{background:var(--red-soft);}
+.reason-pair .after{background:var(--teal-soft);}
+.reason-pair .box b{display:block;font-family:var(--font-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+footer{margin-top:3rem;padding-top:1.2rem;border-top:1px solid var(--line);font-size:.78rem;color:var(--ink-soft);}
+::selection{background:var(--accent-soft);}
+a{color:inherit;}
+</style>
+
+<div class="wrap">
+
+<div class="masthead">
+  <div class="eyebrow">2026 CHEM FRONTIER · 워크플로우 노트</div>
+  <h1>AI 기반 친환경 침출 용매 스크리닝 — 프로젝트 정리</h1>
+  <p class="sub">8/5(수) 동현·영진 통화 내용 정리본 · 8/6(목) 민이 형 미팅 자료 겸 단톡방 공유용</p>
+  <div class="meta-row">
+    <span class="meta-chip">작성 2026-08-05</span>
+    <span class="meta-chip">대상 기간 8/07 – 8/31</span>
+    <span class="meta-chip">본선 발표 10/06 BEXCO</span>
+    <span class="meta-chip">팀원 4인</span>
+  </div>
+  <div class="tldr">
+    <b>한 줄 요약 —</b> ML 예측·시뮬레이션·실제 실험 세 값을 교차검증해 친환경 침출 용매 후보를 빠르게 좁히는 게 핵심 전략. 다만 <b>테스트셋 방식·데이터 규모 목표·용어 사용</b> 세 가지를 전문가 기준으로 다시 맞췄고, 8/31까지는 "완결"이 아니라 "1차 스크리닝 + 예비 실험" 수준으로 목표를 현실화했습니다. 민이 형과 확인할 사항은 <a href="#discuss">2번 섹션</a>에 모아뒀습니다.
+  </div>
+</div>
+
+<nav class="toc">
+  <a href="#workflow">① 핵심 워크플로우</a>
+  <a href="#discuss">② 민이 형과 논의할 것</a>
+  <a href="#terms">③ 용어 바로잡기</a>
+  <a href="#validation">④ 테스트셋·데이터규모 근거</a>
+  <a href="#roles">⑤ 업무 분담</a>
+  <a href="#calendar">⑥ 8/7–8/31 플랜</a>
+  <a href="#feasibility">⑦ 현실성 검토</a>
+</nav>
+
+<section id="workflow">
+  <div class="sec-head"><span class="sec-num">①</span><h2>핵심 워크플로우</h2></div>
+  <p>문헌에서 모은 실험 데이터를 지도학습 모델로 예측(스크리닝)하고, 그 결과를 <b>시뮬레이션</b>과 <b>실제 실험</b> 두 갈래로 각각 검증해 세 값을 교차비교한다 — "새 물질 발견"이 아니라 <b>빠른 탐색 방법론의 재현·검증</b>이 이 프로젝트의 스토리입니다.</p>
+  <div class="grid-flow">
+    <div class="flow-box">
+      <div class="tag">Step 1 · 문헌 데이터</div>
+      <div class="who">문헌조사 → 지도학습 예측</div>
+      <div class="desc">기존 논문 실험값으로 모델 학습, 유망 조성 후보 스크리닝</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box">
+      <div class="tag">Step 2 · 이원 검증</div>
+      <div class="who">시뮬레이션 ×  실제 실험</div>
+      <div class="desc">같은 후보를 계산화학 시뮬레이션과 소량 침출 실험으로 각각 확인</div>
+    </div>
+  </div>
+  <div class="converge">
+    ML 예측값 · 시뮬레이션값 · 실험값 3자 비교 → 신뢰성 판별 → 결론
+    <span>"짜고 치는 고스톱"이 아니라, 서로 다른 방법이 같은 후보를 가리키는지 보여주는 재현성 검증</span>
+  </div>
+</section>
+
+<section id="discuss">
+  <div class="sec-head"><span class="sec-num">②</span><h2>민이 형과 논의·확인할 사항</h2></div>
+  <p style="font-size:.9rem;color:var(--ink-soft);">통화에는 없었지만, 정리하면서 민이 형 확인이 필요하다고 판단된 부분만 모았습니다. 각 항목에 배경 → 확인할 질문 → 저희 팀 추천안 순으로 정리했습니다.</p>
+
+  <div class="discuss-item">
+    <span class="num">01</span> <b>대상 용매 범위 — 이종 유기산 혼합계</b>
+    <p style="font-size:.87rem;">배경: 통화에서 민이 형 전공(단일 산이 아닌 두 가지 유기산을 섞은 혼합 침출계)에 맞춰 대상 용매를 바꾸기로 했다고 들었음.</p>
+    <div class="q">Q. 우선순위로 볼 산 조합(예: 구연산+말레산 등)과, 민이 형이 이미 참고 중인 논문이 있는지?</div>
+    <div class="rec">추천: 문헌상 실제 사례로 <b>구연산+말레산 혼합 침출</b>(Burgess et al., 2024)이 확인됨 — 온도·농도·시간 변수 구성이 유사해 출발점으로 적합할 수 있음. 민이 형 보유 논문과 교차 확인 필요.</div>
+  </div>
+
+  <div class="discuss-item">
+    <span class="num">02</span> <b>민이 형 역할 확대 — 이론검토 + 실험 이중 부담</b>
+    <p style="font-size:.87rem;">배경: 기존 역할은 "전체 파이프라인 검토"였는데, 통화에서는 여기에 더해 <b>유일한 실제 침출 실험 수행자</b>로 확정됨.</p>
+    <div class="q">Q. 5주 안에 실제로 가능한 실험 횟수·재료·장비 여건은? 이론 검토 비중을 줄이고 실험에 집중해도 괜찮은지?</div>
+    <div class="rec">추천: 후보 이론 검토는 동현·영진이 문헌 근거로 1차 대체하고, 민이 형은 실험 실행에 집중하는 쪽으로 재배분 (<a href="#roles">⑤ 업무분담</a> 참고).</div>
+  </div>
+
+  <div class="discuss-item">
+    <span class="num">03</span> <b>EPA 프로그램 정식 명칭</b>
+    <p style="font-size:.87rem;">배경: "민이 형이 검증용으로 찾은 미국 환경부 프로그램"이 통화에서 정확한 이름 없이 언급됨.</p>
+    <div class="q">Q. 정확한 프로그램명과 용도(독성 예측? 생분해성 평가?)는?</div>
+    <div class="rec">추정: <b>T.E.S.T.(Toxicity Estimation Software Tool)</b> — EPA 공식 QSAR 기반 무료 툴로, 친환경 용매의 독성·생분해성 평가에 실제로 쓰임. 명칭 확인되면 민규 사용법 학습 범위를 확정.</div>
+  </div>
+
+  <div class="discuss-item">
+    <span class="num">04</span> <b>테스트셋 방식 & 데이터 규모 목표 최종 확정</b>
+    <p style="font-size:.87rem;">배경: 통화에서 동현·영진 형 사이에 이견이 있었던 부분. 저희가 QSAR·재료 스크리닝 분야 문헌 기준으로 방향을 검토했습니다 (근거는 <a href="#validation">④번 섹션</a>).</p>
+    <div class="q">Q. 아래 추천안대로 진행해도 될지 민이 형 의견도 확인.</div>
+    <div class="rec">추천: 별도 대형 테스트셋 구축 대신 <b>k-fold 교차검증 + 소량 외부검증 + y-스크램블링</b> 병행, 데이터 목표는 "수만 개"가 아닌 <b>"수백~수천 개 + 능동학습/베이지안 최적화로 보완"</b>으로 조정.</div>
+  </div>
+
+  <div class="discuss-item">
+    <span class="num">05</span> <b>계산화학 SW 및 실험 착수 시점</b>
+    <p style="font-size:.87rem;">배경: 동현이 랩실 COSMO-RS/DFT 라이선스를 확인할 예정이나, 민이 형 랩실 자원과 일정 매칭이 필요.</p>
+    <div class="q">Q. 8월 안에는 파일럿 실험 1~2건만 진행하고, 본 실험은 9월로 미루는 방향에 동의하는지?</div>
+    <div class="rec">추천: 8월은 "예비 결과" 확보까지만, 정밀 실험 검증은 9/1~9/20 사이로 이관 (<a href="#feasibility">⑦번 섹션</a> 근거 참고).</div>
+  </div>
+</section>
+
+<section id="terms">
+  <div class="sec-head"><span class="sec-num">③</span><h2>전문용어 바로잡기</h2></div>
+  <p>통화 중 몇 가지 용어가 혼용되거나 부정확하게 쓰였습니다. 포스터·보고서에는 정확한 용어를 쓰는 게 좋아서 정리했습니다.</p>
+  <div class="tbl-wrap">
+    <table>
+      <tr><th>통화 속 표현</th><th>정확한 개념</th><th>설명</th></tr>
+      <tr>
+        <td><span class="term-wrong">"강화학습 하는 거잖아"</span></td>
+        <td><span class="term-right">지도학습(Supervised Learning)</span></td>
+        <td>강화학습은 에이전트가 행동→보상을 반복하며 정책을 스스로 갱신하는 학습(예: 알파고). 팀이 하려는 건 이미 정답(실험값)이 있는 데이터로 모델을 학습시켜 새 조합을 예측하는 지도학습. "정답을 숨겨놓고 맞추게 한다"는 표현은 지도학습의 <b>홀드아웃 검증</b>을 뜻함 — 이 자체는 정확한 이해였음.</td>
+      </tr>
+      <tr>
+        <td>"이 모델이 다음엔 뭘 시도하면 좋을지 스스로 찾는다"는 뉘앙스</td>
+        <td><span class="term-right">능동학습(Active Learning) / 베이지안 최적화(Bayesian Optimization)</span></td>
+        <td>화자들이 "강화학습"이라 부른 것의 실체는 오히려 이쪽에 가까움 — 모델이 다음에 계산·실험할 후보를 스스로 제안해 데이터가 적어도 효율적으로 탐색하는 기법. 데이터 부족 문제의 실질적 해법이므로 도입 검토 권장 (근거: ④번 섹션).</td>
+      </tr>
+      <tr>
+        <td>"스크리닝이나 결국엔 스캔이랑 비슷한 거야"</td>
+        <td><span class="term-right">스크리닝(Virtual Screening)</span> — 그대로 맞음</td>
+        <td>후보군 전체를 빠르고 저렴한 방법으로 훑어 유망한 소수만 추리는 과정. 정확하게 이해하고 사용함, 수정 불필요.</td>
+      </tr>
+      <tr>
+        <td>"방어학습"</td>
+        <td>—</td>
+        <td>존재하지 않는 용어. 녹음 인식(STT) 오류로 "강화학습"이 잘못 표기된 것으로 추정.</td>
+      </tr>
+      <tr>
+        <td>(암묵적으로 사용) 논문 → ML → 스크리닝</td>
+        <td><span class="term-right">QSAR (Quantitative Structure–Activity Relationship)</span></td>
+        <td>분자 구조·조성과 물성/효율 간 정량적 관계를 모델링하는 화학정보학 분야 명칭. 팀의 접근법은 사실상 QSAR의 확장판이므로, 포스터에 이 용어를 쓰면 방법론적 위치를 명확히 알릴 수 있음.</td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<section id="validation">
+  <div class="sec-head"><span class="sec-num">④</span><h2>테스트셋 & 데이터 규모 — 전문가 기준 검증</h2></div>
+
+  <h3>테스트셋을 별도로 만들어야 하는가</h3>
+  <p style="font-size:.9rem;">동현은 "별도 테스트셋이 필요하다", 영진 형은 "요즘 AI 성능상 불필요하다"고 봤습니다. 화학정보학(QSAR)·재료 스크리닝 분야의 실제 관행을 찾아봤습니다.</p>
+  <ul style="font-size:.88rem;">
+    <li><span class="cite">OECD QSAR 모델 검증 5원칙</span> — 적용영역 정의와 통계적 검증을 요구하지만, "반드시 대형 테스트셋을 별도로 만들라"고 규정하지는 않음(방법론 중립).</li>
+    <li><span class="cite">Tropsha, "Best Practices for QSAR Model Development" (2010, Molecular Informatics)</span> — 표준 워크플로로 <b>내부 k-fold 교차검증 + 소규모 외부 검증셋 + 적용영역(applicability domain) 정의</b>를 함께 쓸 것을 권고.</li>
+    <li><span class="cite">Golbraikh & Tropsha, "Beware of q2!" (2002, J. Mol. Graph. Model.)</span> — 내부 검증 지표만으로는 예측력을 보장 못 한다고 경고, 외부 검증의 필요성을 강조.</li>
+    <li><span class="cite">Rücker et al. (2007, J. Chem. Inf. Model.)</span> — y-스크램블링: 정답값을 무작위로 섞고도 모델이 성능이 나오면 우연 상관 — 소규모 데이터 QSAR에서 사실상 표준 검증 절차.</li>
+  </ul>
+  <div class="verdict ok"><b>결론</b> — 양쪽 다 절반만 맞음. 대형 테스트셋을 미리 떼어놓을 필요는 없지만("영진 형 방향"), 데이터를 k-fold 교차검증으로만 쓰고 끝내는 것도 표준에는 못 미침("동현 우려"도 일리 있음). <b>가진 데이터로 k-fold(가능하면 nested) 교차검증을 주력으로 쓰고, 소량이라도 최근 논문 데이터 일부를 외부 검증용으로 떼어두고, y-스크램블링으로 우연 상관을 배제</b>하는 절충안이 학계 표준에 가장 가깝습니다.</div>
+
+  <h3>데이터가 정말 수만~수십만 개 필요한가</h3>
+  <ul style="font-size:.88rem;">
+    <li><span class="cite">Topliss & Costello (1972, J. Med. Chem.)</span> — 디스크립터(변수) 하나당 샘플 <b>5~10개</b> 이상을 하한선으로 보는 경험칙이 QSAR 분야에 널리 인용됨. "수만 개" 기준은 이 경험칙보다 훨씬 과도한 목표.</li>
+    <li><span class="cite">de Cerqueira Lima et al. (2006, J. Chem. Inf. Model.)</span> — 화합물 <b>195개</b>로 여러 ML 모델과 교차검증·외부검증을 결합해 실제 출판된 QSAR 사례.</li>
+    <li><span class="cite">Xu, Ji, Li, Lu, "Small data machine learning in materials science" (2023, npj Computational Materials)</span> — 소규모 재료 데이터 대응법을 정리: 디스크립터 축소, 정규화(Ridge/Lasso), 앙상블, 능동학습, 전이학습.</li>
+    <li><span class="cite">Ma, Kumar, Wang, Amanchukwu (2025, Nature Communications)</span> — 단 <b>58개</b> 실험 데이터에서 출발해 베이지안 능동학습으로 100만 개 가상 후보 중 우수 전해질 4종을 찾아낸 사례.</li>
+  </ul>
+  <div class="verdict ok"><b>결론</b> — "수만~수십만 개 필요"는 과장된 목표였습니다. 문헌에서 수집 가능한 <b>수백~수천 개 규모로도 의미 있는 스크리닝이 가능</b>하며, 오히려 데이터가 적을수록 능동학습/베이지안 최적화를 병행하는 쪽이 학계에서 실제로 검증된 접근입니다. 팀의 목표를 이 방향으로 재설정하는 걸 권장합니다.</div>
+</section>
+
+<section id="roles">
+  <div class="sec-head"><span class="sec-num">⑤</span><h2>전체 프로젝트 업무 분담</h2></div>
+  <p style="font-size:.9rem;color:var(--ink-soft);">※ 참고: 기존에 단톡방에 있던 8/7 이전 역할 분담은 <b>"금요일 회의 전까지 각자 해올 준비 과제"</b>였고, 지금부터 아래는 <b>8/31까지 전체 프로젝트를 어떻게 나눌지</b>에 대한 새 분담안입니다 — 서로 다른 층위의 계획이니 헷갈리지 않게 구분해서 봐주세요.</p>
+
+  <div class="role-card" style="border-top-color:var(--dh);">
+    <h3><span class="badge b-dh">동현</span> 파이프라인 총괄 + 계산화학 시뮬레이션</h3>
+    <ul>
+      <li>전체 파이프라인/일정 관리, 팀 간 산출물 연결(ML 결과 → 시뮬레이션 입력 → 실험 후보 전달)</li>
+      <li>랩실 계산자원으로 후보 조성 시뮬레이션 병렬 실행(랜덤 시드 변경 다회 반복)</li>
+      <li>OpenAlex 등 문헌 검색 툴 팀 전체 설치·세팅</li>
+      <li>ML·시뮬레이션·실험 3자 비교표 작성 총괄</li>
+    </ul>
+    <div class="caution">⚠ 총괄 + 시뮬레이션 실무를 동시에 맡아 업무 과다 우려 — 문헌조사 등 반복 작업은 민규에게 최대한 이관 권장.</div>
+  </div>
+
+  <div class="role-card" style="border-top-color:var(--yj);">
+    <h3><span class="badge b-yj">영진 형</span> ML 스크리닝 모델</h3>
+    <ul>
+      <li>문헌 데이터 기반 디스크립터 설계 및 데이터셋 정리</li>
+      <li>변수별 최적 모델 비교(회귀/트리기반/앙상블 등) → 1차 스크리닝 모델 구축</li>
+      <li>k-fold 교차검증 + y-스크램블링 적용, 적용영역(AD) 확인</li>
+      <li>필요 시 능동학습/베이지안 최적화 도입 검토 및 구현</li>
+      <li>상위 후보 리스트(수치·근거 포함) 동현·민이 형에게 전달</li>
+    </ul>
+  </div>
+
+  <div class="role-card" style="border-top-color:var(--mi);">
+    <h3><span class="badge b-mi">민이 형</span> 이론 검토(경량화) + 실제 침출 실험</h3>
+    <ul>
+      <li>이종 유기산 혼합 침출계 관련 본인 보유 문헌·경험 공유 (이론 검토는 이 수준까지만, 상세 문헌조사는 민규가 보조)</li>
+      <li>ML/시뮬레이션이 추천한 후보 중 실현 가능한 조성 선별</li>
+      <li>전지랩 자원으로 파일럿 침출 실험 수행 (8월은 1~2건, 본 실험은 9월)</li>
+      <li>EPA 검증 프로그램 정식 명칭·용도 확인해 민규에게 공유</li>
+      <li>실험값을 동현·영진에게 전달해 3자 비교에 반영</li>
+    </ul>
+    <div class="caution">⚠ 유일한 실험 수행자라 병목 위험 — 8월엔 최소 실험만, 본 실험은 9월로 분산해 부담 완화.</div>
+  </div>
+
+  <div class="role-card" style="border-top-color:var(--mg);">
+    <h3><span class="badge b-mg">민규</span> 문헌조사 보조 + 검증 프로그램 사용</h3>
+    <ul>
+      <li>OpenAlex로 침출 실험 데이터 보유 논문 1차 스크리닝 (영진 형·민이 형에게 후보 전달)</li>
+      <li>EPA 프로그램(T.E.S.T. 추정) 사용법 학습, 필요 시 팀 내 공유</li>
+      <li>동현·영진의 반복적 문헌/데이터 정리 작업 분산 이관 대상 (업무량 완화 목적)</li>
+      <li>데이터셋 정제 시 단위/조건 통일 등 보조 작업</li>
+    </ul>
+  </div>
+</section>
+
+<section id="calendar">
+  <div class="sec-head"><span class="sec-num">⑥</span><h2>8/7 – 8/31 상세 플랜</h2></div>
+
+  <div class="milestones">
+    <div class="mstone"><b>8/06 목</b>이 문서로 민이 형 미팅</div>
+    <div class="mstone"><b>8/07 금</b>전체 킥오프 회의</div>
+    <div class="mstone"><b>8/12 화</b>팀원등록·결제 마감</div>
+    <div class="mstone"><b>8/31 월</b>1차 스크리닝·예비 실험 마감</div>
+    <div class="mstone"><b>9/21–30</b>발표자료 제출</div>
+    <div class="mstone"><b>10/06</b>본선 발표 (BEXCO)</div>
+  </div>
+
+  <p style="font-size:.85rem;color:var(--ink-soft);">아래 표는 요약이고, 각 칸을 누르면 하단 상세 설명으로 이동합니다.</p>
+  <div class="cal-wrap">
+    <table class="cal">
+      <tr>
+        <th></th>
+        <th><span class="badge b-dh">동현</span></th>
+        <th><span class="badge b-yj">영진</span></th>
+        <th><span class="badge b-mi">민이</span></th>
+        <th><span class="badge b-mg">민규</span></th>
+      </tr>
+      <tr>
+        <td class="wk-label">Week 1<span class="wk-date">8.07–8.10</span></td>
+        <td><a href="#w1-dh">SW 라이선스 확인, 계산자원 세팅</a></td>
+        <td><a href="#w1-yj">scikit-learn 파이프라인 뼈대</a></td>
+        <td><a href="#w1-mi">용매 범위 확정, 문헌 공유</a></td>
+        <td><a href="#w1-mg">1차 문헌 검색 시작</a></td>
+      </tr>
+      <tr>
+        <td class="wk-label">Week 2<span class="wk-date">8.11–8.17</span></td>
+        <td><a href="#w2-dh">시뮬레이션 환경 셋업</a></td>
+        <td><a href="#w2-yj">디스크립터·1차 모델 비교</a></td>
+        <td><a href="#w2-mi">후보 선별 기준 논의</a></td>
+        <td><a href="#w2-mg">데이터셋 정리 보조</a></td>
+      </tr>
+      <tr>
+        <td class="wk-label">Week 3<span class="wk-date">8.18–8.24</span></td>
+        <td><a href="#w3-dh">상위후보 COSMO-RS/DFT 계산</a></td>
+        <td><a href="#w3-yj">1차 모델 완료, 상위후보 도출</a></td>
+        <td><a href="#w3-mi">파일럿 실험 준비·착수</a></td>
+        <td><a href="#w3-mg">EPA 프로그램 학습</a></td>
+      </tr>
+      <tr>
+        <td class="wk-label">Week 4<span class="wk-date">8.25–8.31</span></td>
+        <td><a href="#w4-dh">3자 비교표 작성 총괄</a></td>
+        <td><a href="#w4-yj">모델링 결과 정리</a></td>
+        <td><a href="#w4-mi">파일럿 실험 초기 결과</a></td>
+        <td><a href="#w4-mg">중간보고서 자료 취합</a></td>
+      </tr>
+    </table>
+  </div>
+
+  <h3 style="margin-top:2rem;">주차별 상세 설명</h3>
+
+  <div class="week-detail" id="w1">
+    <h3>Week 1 · 8/07(금) – 8/10(월) — 범위 확정 & 킥오프</h3>
+    <div class="person-block dh" id="w1-dh"><div class="name">동현</div><ul>
+      <li>랩실 보유 계산화학 SW(DFT, MD, COSMO-RS) 라이선스·가용 여부 확인</li>
+      <li>OpenAlex 문헌검색 툴 팀원 전체 PC에 설치</li>
+      <li>본인 계산자원(교수님 할당분) 스케줄 정리 — 언제부터 시뮬레이션에 쓸 수 있는지 확정</li>
+    </ul></div>
+    <div class="person-block yj" id="w1-yj"><div class="name">영진 형</div><ul>
+      <li>scikit-learn 기반 모델링 파이프라인 뼈대 구축 시작(AI 보조 + 직접 코드 검토 병행)</li>
+      <li>k-fold 교차검증 + y-스크램블링을 처음부터 구조에 포함시켜 설계</li>
+    </ul></div>
+    <div class="person-block mi" id="w1-mi"><div class="name">민이 형</div><ul>
+      <li>이종 유기산 혼합 침출계 범위(우선순위 산 조합) 확정, 보유 문헌 팀에 공유</li>
+      <li>EPA 검증 프로그램 정식 명칭·용도 팀에 확인해주기</li>
+    </ul></div>
+    <div class="person-block mg" id="w1-mg"><div class="name">민규</div><ul>
+      <li>OpenAlex로 침출 실험 데이터 보유 논문 1차 검색 시작</li>
+      <li>후보 논문 리스트업해서 민이 형에게 "이거 쓸만한지" 확인 요청</li>
+    </ul></div>
+    <p style="font-size:.8rem;color:var(--ink-soft);">※ 8/12(화) 팀원등록·결제 마감 — 전체 팀 공통 확인 필요</p>
+  </div>
+
+  <div class="week-detail" id="w2">
+    <h3>Week 2 · 8/11 – 8/17 — 후보군 & 데이터 확보</h3>
+    <div class="person-block dh" id="w2-dh"><div class="name">동현</div><ul>
+      <li>시뮬레이션 실행 환경(입력 파일 포맷, 배치 스크립트) 셋업 — 영진 형 모델 출력과 연동 준비</li>
+      <li>테스트 삼아 임의 조성 1~2개로 시뮬레이션 시험 실행</li>
+    </ul></div>
+    <div class="person-block yj" id="w2-yj"><div class="name">영진 형</div><ul>
+      <li>문헌조사로 확보된 데이터로 분자/조성 디스크립터 계산</li>
+      <li>여러 모델(회귀·트리기반·앙상블 등) 변수별 성능 비교, k-fold CV로 1차 검증</li>
+      <li>데이터가 적을 경우 능동학습/베이지안 최적화 적용 여부 판단</li>
+    </ul></div>
+    <div class="person-block mi" id="w2-mi"><div class="name">민이 형</div><ul>
+      <li>영진 형 1차 모델 결과를 보고 "실험적으로 말이 되는 후보인지" 검토 기준 제시</li>
+      <li>실험 가능 조성 범위(재료 확보 가능 여부) 팀에 공유</li>
+    </ul></div>
+    <div class="person-block mg" id="w2-mg"><div class="name">민규</div><ul>
+      <li>확보된 논문 데이터 단위·조건 통일 등 정리 보조</li>
+      <li>추가 문헌 검색 지속, 데이터 부족한 변수 있으면 영진 형에게 보고</li>
+    </ul></div>
+  </div>
+
+  <div class="week-detail" id="w3">
+    <h3>Week 3 · 8/18 – 8/24 — 정밀 검증 & 실험 착수</h3>
+    <div class="person-block dh" id="w3-dh"><div class="name">동현</div><ul>
+      <li>영진 형이 도출한 상위 후보(5~10개)에 대해 COSMO-RS/DFT 정밀 계산 실행</li>
+      <li>계산 결과 정리해 민이 형에게 "이 조성이 이론적으로 유망하다" 전달</li>
+    </ul></div>
+    <div class="person-block yj" id="w3-yj"><div class="name">영진 형</div><ul>
+      <li>1차 ML 모델 완료, 상위 후보군 5~10개 확정해 동현·민이 형에게 전달</li>
+      <li>모델 예측 근거(변수별 기여도 등) 문서화</li>
+    </ul></div>
+    <div class="person-block mi" id="w3-mi"><div class="name">민이 형</div><ul>
+      <li>실험 재료·장비 준비</li>
+      <li>ML+시뮬레이션이 공통으로 추천한 후보 1~2개로 파일럿 침출 실험 착수(전체 실험 아님, 예비 트렌드 확인 목적)</li>
+    </ul></div>
+    <div class="person-block mg" id="w3-mg"><div class="name">민규</div><ul>
+      <li>EPA 검증 프로그램(T.E.S.T. 추정) 설치 및 사용법 학습</li>
+      <li>필요 시 친환경성(독성/생분해성) 예비 확인 지원</li>
+    </ul></div>
+  </div>
+
+  <div class="week-detail" id="w4">
+    <h3>Week 4 · 8/25 – 8/31 — 중간 결과 취합</h3>
+    <div class="person-block dh" id="w4-dh"><div class="name">동현</div><ul>
+      <li>ML 예측값 · 시뮬레이션값 · 파일럿 실험값 3자 비교표 작성 총괄</li>
+      <li>중간보고서·포스터 초안 구조 잡기</li>
+    </ul></div>
+    <div class="person-block yj" id="w4-yj"><div class="name">영진 형</div><ul>
+      <li>모델링 결과(수치·근거) 최종 정리, 후보 3~5개로 압축</li>
+    </ul></div>
+    <div class="person-block mi" id="w4-mi"><div class="name">민이 형</div><ul>
+      <li>파일럿 실험 초기 결과 수합 (완결 아닌 예비 트렌드 수준으로 정리)</li>
+    </ul></div>
+    <div class="person-block mg" id="w4-mg"><div class="name">민규</div><ul>
+      <li>중간보고서용 문헌 근거·데이터 출처 정리 취합</li>
+    </ul></div>
+    <p style="font-size:.8rem;color:var(--ink-soft);">※ 본 실험(파일럿 이후 정밀 검증)과 발표자료 완성은 9월(9/1~9/20)로 이관</p>
+  </div>
+</section>
+
+<section id="feasibility">
+  <div class="sec-head"><span class="sec-num">⑦</span><h2>현실성 검토 — 무엇을, 왜 바꿨는가</h2></div>
+  <p style="font-size:.9rem;">기존 5주 플랜(7/29 시작 기준)을 검토한 결과, 학부생 4인이 5주 안에 "문헌조사 → ML → 정밀계산 → 실험 완결"까지 전부 끝내는 건 비현실적이라 판단해 스코프를 조정했습니다. 근거를 정리합니다.</p>
+
+  <div class="reason-pair">
+    <div class="box before"><b>기존 계획</b>8/31까지 정밀 실험 검증 포함 완결, 최종 후보 3~5개 실험 결과까지 확보</div>
+    <div class="box after"><b>수정안</b>8/31까지는 "1차 스크리닝 + 파일럿 실험(1~2건)"만, 본 실험·정밀검증은 9/1~9/20으로 이관</div>
+  </div>
+  <p style="font-size:.87rem;">근거: 유사한 3단계 워크플로(전산 스크리닝 + 실험 검증)를 실제로 수행한 <span class="cite">Amusa et al., "Advancing circular battery recycling by systematically screening novel deep eutectic solvents" (2025, Sustainable Materials and Technologies)</span>는 COSMO-RS로 675개 조합을 스크리닝한 뒤 8개를 합성·실험 검증한 사례로, 정식 연구실 단위로 수개월 이상 걸리는 작업입니다. 학부생 4인이 다른 학업과 병행하며 5주 안에 전 과정을 완결하는 건 무리이므로, 발표에는 "1차 결과 + 방법론 제안 + 로드맵"으로 스토리를 짜는 게 현실적입니다.</p>
+
+  <div class="reason-pair">
+    <div class="box before"><b>기존 인식</b>ML 학습에 수만~수십만 개 데이터 필요</div>
+    <div class="box after"><b>수정안</b>수백~수천 개 문헌 데이터 + 능동학습/베이지안 최적화로 보완</div>
+  </div>
+  <p style="font-size:.87rem;">근거: ④번 섹션 참고. Topliss & Costello(1972)의 경험칙, de Cerqueira Lima et al.(2006)의 195개 데이터 QSAR 출판 사례, Ma et al.(2025)의 58개 데이터 기반 능동학습 사례 모두 소규모 데이터로도 유의미한 결과가 가능함을 보여줍니다. 목표를 낮추는 게 아니라 <b>현실적인 데이터 규모에서도 통하는 검증된 방법(능동학습)으로 전략을 바꾸는 것</b>입니다.</p>
+
+  <div class="reason-pair">
+    <div class="box before"><b>기존 인식</b>테스트셋 필요 여부에 대한 이견 미해결</div>
+    <div class="box after"><b>수정안</b>k-fold 교차검증 + 소량 외부검증 + y-스크램블링 병행</div>
+  </div>
+  <p style="font-size:.87rem;">근거: ④번 섹션. QSAR 분야 표준 관행(Tropsha 2010; Golbraikh & Tropsha 2002)을 따른 절충안으로, 동현·영진 형 양쪽 우려를 모두 반영합니다.</p>
+
+  <div class="verdict warn"><b>남은 리스크</b> — ML·시뮬레이션·실험 3자를 동시에 교차검증하는 선례는 조사 범위에서 확인되지 않았습니다. 이는 팀의 차별점이 될 수 있지만, 포스터에서 "최초 시도"라고 과장하기보다는 "기존 2단계 검증(전산+실험) 방법론에 ML 스크리닝을 결합해 확장했다"는 식으로 표현하는 게 학술적으로 안전합니다.</div>
+</section>
+
+<footer>
+  경희대 화공과 4인팀 · 2026 Chem Frontier 워크플로우 노트 · 통화(8/5) + 문헌조사 기반 정리, 표시된 인용은 OpenAlex 기준 검증된 논문입니다. 세부 내용은 8/6 민이 형 미팅에서 업데이트 예정.
+</footer>
+
+</div>

@@ -1,0 +1,5 @@
+! XTB2 Opt ALPB(water)
+%geom MaxIter 600 end
+%pal nprocs 1 end
+%maxcore 6000
+* xyzfile -2 4 CoCl4_geo.xyz

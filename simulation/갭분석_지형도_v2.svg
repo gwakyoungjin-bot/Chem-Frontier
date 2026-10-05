@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="540pt" height="446.4pt" viewBox="0 0 540 446.4" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-08-07T15:31:30.590432</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.1, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 446.4 
+L 540 446.4 
+L 540 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 25.441953 420.958047 
+L 523.240625 420.958047 
+L 523.240625 47.362344 
+L 25.441953 47.362344 
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 274.341289 217.178572 
+L 503.328678 217.178572 
+L 503.328678 60.947642 
+L 274.341289 60.947642 
+z
+" clip-path="url(#p2f84ab7522)" style="fill: #9b3a32; opacity: 0.1"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="text_1">
+     <text style="font-size: 10px; font-family: 'Malgun Gothic'; text-anchor: middle" x="274.341289" y="433.498672" transform="rotate(-0 274.341289 433.498672)">몰비(조성비)를 다루는 방식   —   고정 / 사전선정   -&gt;   연속변수 · ML 최적화</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="text_2">
+     <text style="font-size: 10px; font-family: 'Malgun Gothic'; text-anchor: middle" x="19.44" y="234.160195" transform="rotate(-90 19.44 234.160195)">목적변수(종속변수)   —   물리적 물성   -&gt;   목표 성능(효율 · 수율 · 선택성)</text>
+    </g>
+   </g>
+   <g id="line2d_1">
+    <path d="M 249.451355 420.958047 
+L 249.451355 47.362344 
+" clip-path="url(#p2f84ab7522)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #999999; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 25.441953 234.160195 
+L 523.240625 234.160195 
+" clip-path="url(#p2f84ab7522)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #999999; stroke-width: 0.8"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 25.441953 420.958047 
+L 25.441953 47.362344 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 25.441953 420.958047 
+L 523.240625 420.958047 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="PathCollection_1">
+    <defs>
+     <path id="m863cf5fe80" d="M 0 5.91608 
+C 1.568963 5.91608 3.073876 5.292724 4.1833 4.1833 
+C 5.292724 3.073876 5.91608 1.568963 5.91608 0 
+C 5.91608 -1.568963 5.292724 -3.073876 4.1833 -4.1833 
+C 3.073876 -5.292724 1.568963 -5.91608 0 -5.91608 
+C -1.568963 -5.91608 -3.073876 -5.292724 -4.1833 -4.1833 
+C -5.292724 -3.073876 -5.91608 -1.568963 -5.91608 0 
+C -5.91608 1.568963 -5.292724 3.073876 -4.1833 4.1833 
+C -3.073876 5.292724 -1.568963 5.91608 0 5.91608 
+z
+" style="stroke: #ffffff"/>
+    </defs>
+    <g clip-path="url(#p2f84ab7522)">
+     <use xlink:href="#m863cf5fe80" x="85.177794" y="101.703537" style="fill: #2c6f62; stroke: #ffffff"/>
+    </g>
+   </g>
+   <g id="PathCollection_2">
+    <g clip-path="url(#p2f84ab7522)">
+     <use xlink:href="#m863cf5fe80" x="90.15578" y="139.063107" style="fill: #2c6f62; stroke: #ffffff"/>
+    </g>
+   </g>
+   <g id="PathCollection_3">
+    <g clip-path="url(#p2f84ab7522)">
+     <use xlink:href="#m863cf5fe80" x="129.979674" y="152.648406" style="fill: #2c6f62; stroke: #ffffff"/>
+    </g>
+   </g>
+   <g id="PathCollection_4">
+    <g clip-path="url(#p2f84ab7522)">
+     <use xlink:href="#m863cf5fe80" x="85.177794" y="166.233704" style="fill: #2c6f62; stroke: #ffffff"/>
+    </g>
+   </g>
+   <g id="PathCollection_5">
+    <g clip-path="url(#p2f84ab7522)">
+     <use xlink:href="#m863cf5fe80" x="129.979674" y="186.611651" style="fill: #2c6f62; stroke: #ffffff"/>
+    </g>
+   </g>
+   <g id="PathCollection_6">
+    <defs>
+     <path id="mee094a0c22" d="M -5.91608 5.91608 
+L 5.91608 5.91608 
+L 5.91608 -5.91608 
+L -5.91608 -5.91608 
+z
+" style="stroke: #ffffff"/>
+    </defs>
+    <g clip-path="url(#p2f84ab7522)">
+     <use xlink:href="#mee094a0c22" x="428.658877" y="315.671985" style="fill: #3b6e91; stroke: #ffffff"/>
+    </g>
+   </g>
+   <g id="PathCollection_7">
+    <g clip-path="url(#p2f84ab7522)">
+     <use xlink:href="#mee094a0c22" x="349.01109" y="342.842582" style="fill: #3b6e91; stroke: #ffffff"/>
+    </g>
+   </g>
+   <g id="PathCollection_8">
+    <g clip-path="url(#p2f84ab7522)">
+     <use xlink:href="#mee094a0c22" x="408.74693" y="397.183775" style="fill: #3b6e91; stroke: #ffffff"/>
+    </g>
+   </g>
+   <g id="PathCollection_9">
+    <g clip-path="url(#p2f84ab7522)">
+     <use xlink:href="#mee094a0c22" x="349.01109" y="370.013178" style="fill: #3b6e91; stroke: #ffffff"/>
+    </g>
+   </g>
+   <g id="PathCollection_10">
+    <g clip-path="url(#p2f84ab7522)">
+     <use xlink:href="#mee094a0c22" x="448.570824" y="356.42788" style="fill: #3b6e91; stroke: #ffffff"/>
+    </g>
+   </g>
+   <g id="PathCollection_11">
+    <defs>
+     <path id="m30f8e386b0" d="M 0 -5.91608 
+L -5.91608 5.91608 
+L 5.91608 5.91608 
+z
+" style="stroke: #ffffff"/>
+    </defs>
+    <g clip-path="url(#p2f84ab7522)">
+     <use xlink:href="#m30f8e386b0" x="234.517395" y="196.800625" style="fill: #8a6d1d; stroke: #ffffff"/>
+    </g>
+   </g>
+   <g id="PathCollection_12">
+    <defs>
+     <path id="m5083be7f47" d="M -1.972027 5.91608 
+L 1.972027 5.91608 
+L 1.972027 1.972027 
+L 5.91608 1.972027 
+L 5.91608 -1.972027 
+L 1.972027 -1.972027 
+L 1.972027 -5.91608 
+L -1.972027 -5.91608 
+L -1.972027 -1.972027 
+L -5.91608 -1.972027 
+L -5.91608 1.972027 
+L -1.972027 1.972027 
+z
+" style="stroke: #ffffff"/>
+    </defs>
+    <g clip-path="url(#p2f84ab7522)">
+     <use xlink:href="#m5083be7f47" x="189.715515" y="281.708739" style="fill: #7a5c8a; stroke: #ffffff"/>
+    </g>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'Malgun Gothic'" transform="translate(91.519414 20.7)">DES 조성비 관련 선행연구 지형도  (v2 — Qin 2024 원문 확인 반영)</text>
+    <text style="font-weight: 700; font-size: 12px; font-family: 'Malgun Gothic'" transform="translate(157.028164 33.362344)">(가로: 비율 취급방식 / 세로: 목적변수 성격)</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; fill: #222222" transform="translate(92.177794 88.375599)">Jelinski &amp; Cysewski 2018</text>
+    <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; fill: #222222" transform="translate(92.177794 96.703537)">(COSMO-RS, 비율 1:1 고정)</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; text-anchor: start; fill: #222222" x="97.15578" y="134.063107" transform="rotate(-0 97.15578 134.063107)">Cao 2017</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; text-anchor: start; fill: #222222" x="136.979674" y="147.648406" transform="rotate(-0 136.979674 147.648406)">Zheng 2021</text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; text-anchor: start; fill: #222222" x="92.177794" y="161.233704" transform="rotate(-0 92.177794 161.233704)">Cao 2018</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; fill: #222222" transform="translate(136.979674 174.011651)">Pal 2019 /</text>
+    <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; fill: #222222" transform="translate(136.979674 181.611651)">Naseem 2021</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; fill: #222222" transform="translate(435.658877 302.659626)">Mohan 2024</text>
+    <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; fill: #222222" transform="translate(435.658877 310.671985)">(ML 점도, 670개 DES)</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; fill: #222222" transform="translate(356.01109 329.830222)">Lemaoui 2020</text>
+    <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; fill: #222222" transform="translate(356.01109 337.842582)">(QSPR 전도도)</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; fill: #222222" transform="translate(415.74693 383.855837)">Wang 2021</text>
+    <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; fill: #222222" transform="translate(415.74693 392.183775)">(RF, CO2 용해도)</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; fill: #222222" transform="translate(356.01109 357.000819)">Abdollahzadeh 2022</text>
+    <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; fill: #222222" transform="translate(356.01109 365.013178)">(밀도 ML)</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; fill: #222222" transform="translate(455.570824 343.415521)">Duarte de Alencar</text>
+    <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; fill: #222222" transform="translate(455.570824 351.42788)">2024 (점도 ANN)</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; fill: #222222" transform="translate(241.517395 175.460328)">Almashjary 2018</text>
+    <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; fill: #222222" transform="translate(241.517395 183.788266)">(비율 2수준+RSM,</text>
+    <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; fill: #222222" transform="translate(241.517395 191.800625)">경계 사례)</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; fill: #222222" transform="translate(196.715515 260.821177)">Abranches 2019</text>
+    <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; fill: #222222" transform="translate(196.715515 268.421177)">(Fluid Phase Equilib.,</text>
+    <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; fill: #222222" transform="translate(196.715515 276.708739)">COSMO-RS 공융점 탐색)</text>
+   </g>
+   <g id="PathCollection_13">
+    <path d="M 428.658877 134.697353 
+L 437.878422 125.477809 
+L 428.658877 116.258264 
+L 419.439333 125.477809 
+z
+" clip-path="url(#p2f84ab7522)" style="fill: #b8622c; stroke-dasharray: 5.92,2.56; stroke-dashoffset: 0; stroke: #7a3f1b; stroke-width: 1.6"/>
+   </g>
+   <g id="text_16">
+    <text style="font-weight: 700; font-size: 10.5px; font-family: 'Malgun Gothic'; text-anchor: middle; fill: #9b3a32" x="388.834984" y="71.173094" transform="rotate(-0 388.834984 71.173094)">DES × 성능 최적화 공백</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 8.6px; font-family: 'Malgun Gothic'; text-anchor: middle; fill: #9b3a32" x="388.834984" y="89.571338" transform="rotate(-0 388.834984 89.571338)">(방법론 선례: Qin 2024 — DES 아님)</text>
+   </g>
+   <g id="text_18">
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'Malgun Gothic'; fill: #7a3f1b" transform="translate(293.658877 121.478137)">Qin et al. 2024</text>
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'Malgun Gothic'; fill: #7a3f1b" transform="translate(293.658877 129.078137)">(Bayesian Exp. Design + COSMO-RS,</text>
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'Malgun Gothic'; fill: #7a3f1b" transform="translate(293.658877 137.46545)">비율 연속최적화 확인됨 —</text>
+    <text style="font-weight: 700; font-size: 7.6px; font-family: 'Malgun Gothic'; fill: #7a3f1b" transform="translate(293.658877 145.477809)">LLE 용매, DES 아님)</text>
+   </g>
+   <g id="legend_1">
+    <g id="line2d_3">
+     <path d="M 22.32598 370.003477 
+L 29.92598 370.003477 
+L 37.52598 370.003477 
+" style="fill: none; stroke: #ffffff; stroke-width: 1.5; stroke-linecap: square"/>
+     <defs>
+      <path id="m70d95bb14d" d="M 0 4.5 
+C 1.193414 4.5 2.338109 4.025852 3.181981 3.181981 
+C 4.025852 2.338109 4.5 1.193414 4.5 0 
+C 4.5 -1.193414 4.025852 -2.338109 3.181981 -3.181981 
+C 2.338109 -4.025852 1.193414 -4.5 0 -4.5 
+C -1.193414 -4.5 -2.338109 -4.025852 -3.181981 -3.181981 
+C -4.025852 -2.338109 -4.5 -1.193414 -4.5 0 
+C -4.5 1.193414 -4.025852 2.338109 -3.181981 3.181981 
+C -2.338109 4.025852 -1.193414 4.5 0 4.5 
+z
+" style="stroke: #ffffff"/>
+     </defs>
+     <g>
+      <use xlink:href="#m70d95bb14d" x="29.92598" y="370.003477" style="fill: #2c6f62; stroke: #ffffff"/>
+     </g>
+    </g>
+    <g id="text_19">
+     <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; text-anchor: start" x="43.60598" y="372.663477" transform="rotate(-0 43.60598 372.663477)">천연물 추출 RSM/BBD (비율 사전선정)</text>
+    </g>
+    <g id="line2d_4">
+     <path d="M 22.32598 381.875211 
+L 29.92598 381.875211 
+L 37.52598 381.875211 
+" style="fill: none; stroke: #ffffff; stroke-width: 1.5; stroke-linecap: square"/>
+     <defs>
+      <path id="m6650b8dd8d" d="M -4.5 4.5 
+L 4.5 4.5 
+L 4.5 -4.5 
+L -4.5 -4.5 
+z
+" style="stroke: #ffffff; stroke-linejoin: miter"/>
+     </defs>
+     <g>
+      <use xlink:href="#m6650b8dd8d" x="29.92598" y="381.875211" style="fill: #3b6e91; stroke: #ffffff; stroke-linejoin: miter"/>
+     </g>
+    </g>
+    <g id="text_20">
+     <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; text-anchor: start" x="43.60598" y="384.535211" transform="rotate(-0 43.60598 384.535211)">ML/QSPR 물성예측 (비율 연속·물성 타깃)</text>
+    </g>
+    <g id="line2d_5">
+     <path d="M 22.32598 393.68757 
+L 29.92598 393.68757 
+L 37.52598 393.68757 
+" style="fill: none; stroke: #ffffff; stroke-width: 1.5; stroke-linecap: square"/>
+     <defs>
+      <path id="m11faf64e90" d="M 0 -4.5 
+L -4.5 4.5 
+L 4.5 4.5 
+z
+" style="stroke: #ffffff; stroke-linejoin: miter"/>
+     </defs>
+     <g>
+      <use xlink:href="#m11faf64e90" x="29.92598" y="393.68757" style="fill: #8a6d1d; stroke: #ffffff; stroke-linejoin: miter"/>
+     </g>
+    </g>
+    <g id="text_21">
+     <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; text-anchor: start" x="43.60598" y="396.34757" transform="rotate(-0 43.60598 396.34757)">경계/예외 사례</text>
+    </g>
+    <g id="line2d_6">
+     <path d="M 22.32598 405.559305 
+L 29.92598 405.559305 
+L 37.52598 405.559305 
+" style="fill: none; stroke: #ffffff; stroke-width: 1.5; stroke-linecap: square"/>
+     <defs>
+      <path id="m4b6ab6071a" d="M -0 6.363961 
+L 6.363961 0 
+L 0 -6.363961 
+L -6.363961 -0 
+z
+" style="stroke: #7a3f1b; stroke-width: 1.5; stroke-linejoin: miter"/>
+     </defs>
+     <g>
+      <use xlink:href="#m4b6ab6071a" x="29.92598" y="405.559305" style="fill: #b8622c; stroke: #7a3f1b; stroke-width: 1.5; stroke-linejoin: miter"/>
+     </g>
+    </g>
+    <g id="text_22">
+     <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; text-anchor: start" x="43.60598" y="408.219305" transform="rotate(-0 43.60598 408.219305)">팀 방법론 선례 (확인됨, 비-DES)</text>
+    </g>
+    <g id="line2d_7">
+     <path d="M 22.32598 417.408477 
+L 29.92598 417.408477 
+L 37.52598 417.408477 
+" style="fill: none; stroke: #ffffff; stroke-width: 1.5; stroke-linecap: square"/>
+     <defs>
+      <path id="mb6ac9340dd" d="M -1.5 4.5 
+L 1.5 4.5 
+L 1.5 1.5 
+L 4.5 1.5 
+L 4.5 -1.5 
+L 1.5 -1.5 
+L 1.5 -4.5 
+L -1.5 -4.5 
+L -1.5 -1.5 
+L -4.5 -1.5 
+L -4.5 1.5 
+L -1.5 1.5 
+z
+" style="stroke: #ffffff; stroke-linejoin: miter"/>
+     </defs>
+     <g>
+      <use xlink:href="#mb6ac9340dd" x="29.92598" y="417.408477" style="fill: #7a5c8a; stroke: #ffffff; stroke-linejoin: miter"/>
+     </g>
+    </g>
+    <g id="text_23">
+     <text style="font-size: 7.6px; font-family: 'Malgun Gothic'; text-anchor: start" x="43.60598" y="420.068477" transform="rotate(-0 43.60598 420.068477)">공융점(상평형) 탐색형</text>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p2f84ab7522">
+   <rect x="25.441953" y="47.362344" width="497.798672" height="373.595703"/>
+  </clipPath>
+ </defs>
+</svg>

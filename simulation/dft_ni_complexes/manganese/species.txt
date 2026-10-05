@@ -1,0 +1,5 @@
+MnCl4 xtb,opt,freq
+Mn_aq6 xtb,opt,freq
+MnCl2_aq4 xtb,opt,freq
+MnCl3_aq1 xtb,opt,freq
+MnCl1_aq5 xtb,opt,freq

@@ -1,0 +1,6 @@
+! r2SCAN-3c LooseOpt CPCM(water)
+%geom MaxIter 150 end
+%cpcm smd true SMDsolvent "water" end
+%pal nprocs 1 end
+%maxcore 6000
+* xyzfile -2 1 H3Cit_Cl2_geo.xyz

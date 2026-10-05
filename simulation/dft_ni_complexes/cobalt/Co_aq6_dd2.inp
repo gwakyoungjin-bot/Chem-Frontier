@@ -1,0 +1,12 @@
+! def2-TZVP def2-TZVP/C def2/JK RIJK CPCM(water)
+%pal nprocs 1 end
+%maxcore 6000
+%casscf
+  nel 7
+  norb 5
+  mult 4
+  nroots 10
+  actorbs dorbs
+  PTMethod SC_NEVPT2
+end
+* xyzfile 2 4 Co_aq6_opt.xyz

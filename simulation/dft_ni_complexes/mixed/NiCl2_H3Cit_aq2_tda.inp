@@ -1,0 +1,9 @@
+! PBE0 def2-SVP def2/J RIJCOSX CPCM(water)
+%pal nprocs 1 end
+%maxcore 6000
+%tddft
+  nroots 25
+  maxdim 250
+  tda true
+end
+* xyzfile 0 3 NiCl2_H3Cit_aq2_sp.xyz

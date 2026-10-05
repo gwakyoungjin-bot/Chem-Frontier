@@ -1,0 +1,181 @@
+======================================================================
+Co · Mn 계산 보고서 — 2026-09-27 05:49
+======================================================================
+
+[0] 한 줄 요약
+  바로 쓸 수 있는 금속: 없음
+  그림: window_map.png (분리 영역도) / guideline_map.png (Ni 단독)
+  표  : window.csv (금속별 전환선) / speciation.csv (Ni 화학종 분율)
+
+[1] 계산 상태 (합격 = 허수진동수 최대 |값| <= 50 cm-1)
+
+  == Co ==  라운드 3회
+  종              합격       허수개수      최대cm-1  
+  CoCl4          YES      0         0       
+  Co_aq6         NO       2         142     
+  CoCl2_aq4      YES      0         0       
+  CoCl3_aq1      YES      0         0       
+  CoCl1_aq5      NO       1         125     
+  ** 불합격: Co_aq6, CoCl1_aq5
+     -> 이 금속의 dG 는 인용 전에 확인하세요.
+
+  == Mn ==  라운드 3회
+  종              합격       허수개수      최대cm-1  
+  MnCl4          YES      0         0       
+  Mn_aq6         NO       5         111     
+  MnCl2_aq4      NO       1         65      
+  MnCl3_aq1      YES      0         0       
+  MnCl1_aq5      NO       1         136     
+  ** 불합격: Mn_aq6, MnCl2_aq4, MnCl1_aq5
+     -> 이 금속의 dG 는 인용 전에 확인하세요.
+
+[2] 후처리 출력
+  --- speciation.py --water (rc=0) ---
+    ⚠ 허수진동수 발견 — dG 신뢰도 저하:
+        NiCl1_aq5: 허수 1개 (최대 28 cm-1)
+       50 cm-1 이하면 무시 가능(물 회전). 크면 그 종을 재최적화할 것.
+    
+    반응 열역학 (Ni_aq6 기준, 보정 전)
+      Ni_aq6      n(Cl)=0  Oh   dH=    +0.0 kJ/mol  dS=   -0.0 J/mol/K  dG(60C)=    +0.0
+      NiCl1_aq5   n(Cl)=1  Oh   dH=   -58.9 kJ/mol  dS=  +17.1 J/mol/K  dG(60C)=   -64.6
+      NiCl2_aq4   n(Cl)=2  Oh   dH=  -107.9 kJ/mol  dS=  +55.1 J/mol/K  dG(60C)=  -126.2
+      NiCl3_aq1   n(Cl)=3  Td   dH=   -76.7 kJ/mol  dS= +366.7 J/mol/K  dG(60C)=  -198.9
+      NiCl4       n(Cl)=4  Td   dH=  -114.4 kJ/mol  dS= +388.6 J/mol/K  dG(60C)=  -243.9
+    
+    활동도 모델: 3성분 ChCl:CA:H2O (x_H2O=0.80, 실험 레시피 그대로)
+    
+    보정 (실측 앵커 2점)
+      앵커1 Hartley 2025 : 95 C, x=0.333 에서 f_Td=0.50
+      앵커2 우리 UV-Vis  : 60 C, x=0.95 에서 f_Td=0.05 (미검출 환산, a_W=1.00)
+      -> shift = +67.6 kJ/mol per Cl-,  alpha = 0.1057
+         |shift| > 50 이면 dG 자체를 의심할 것 (이온 용매화 오차 통상 범위)
+    
+    시트르산 착물 (전하중립 반응 -> shift 보정 없음, Cl 사다리보다 신뢰도 높음)
+      NiCit_aq4   Oh   dH=   +26.2 kJ/mol  dS=  +64.5 J/mol/K  dG(60C)=    +4.8
+    
+    60 C 측정 5조성의 예상 화학종 분율
+      시료    x      a_ChCl     Ni_aq6     NiCl1_aq5  NiCl2_aq4  NiCl3_aq1  NiCl4      NiCit_aq4  | f_Td
+      1:19  0.05   2.84e-07   0.9212     0.0633     0.0015     0.0018     0.0000     0.0122     | 0.0018
+      3:17  0.15   2.76e-06   0.9063     0.0792     0.0023     0.0037     0.0000     0.0084     | 0.0037
+      1:4   0.20   6.50e-06   0.8995     0.0861     0.0028     0.0048     0.0000     0.0068     | 0.0048
+      3:1   0.75   3.94e-03   0.8055     0.1517     0.0096     0.0330     0.0000     0.0002     | 0.0330
+      19:1  0.95   1.69e-02   0.7687     0.1689     0.0124     0.0500     0.0000     0.0000     | 0.0500
+    wrote /home/users/navy030303/dft_ni_complexes/speciation.csv  (399행)
+    wrote /home/users/navy030303/dft_ni_complexes/guideline_map.png
+    
+    주의: a_Cl 은 이온쌍 근사 대리변수, a_W=1.00 는 가정값. 절대값 인용 금지.
+          이 지도는 앵커 2점으로 보정된 유효모델이다 (검증 아님, 보정임).
+
+  --- cobalt_window.py --water (rc=0) ---
+    /home/users/navy030303/dft_ni_complexes/cobalt_window.py:256: UserWarning: Glyph 51020 (\N{HANGUL SYLLABLE EUM}) missing from font(s) DejaVu Sans.
+      fig.tight_layout()
+    /home/users/navy030303/dft_ni_complexes/cobalt_window.py:256: UserWarning: Glyph 51060 (\N{HANGUL SYLLABLE I}) missing from font(s) DejaVu Sans.
+      fig.tight_layout()
+    /home/users/navy030303/dft_ni_complexes/cobalt_window.py:256: UserWarning: Glyph 50728 (\N{HANGUL SYLLABLE ON}) missing from font(s) DejaVu Sans.
+      fig.tight_layout()
+    /home/users/navy030303/dft_ni_complexes/cobalt_window.py:256: UserWarning: Glyph 50577 (\N{HANGUL SYLLABLE YANG}) missing from font(s) DejaVu Sans.
+      fig.tight_layout()
+    /home/users/navy030303/dft_ni_complexes/cobalt_window.py:256: UserWarning: Glyph 48516 (\N{HANGUL SYLLABLE BUN}) missing from font(s) DejaVu Sans.
+      fig.tight_layout()
+    /home/users/navy030303/dft_ni_complexes/cobalt_window.py:256: UserWarning: Glyph 47532 (\N{HANGUL SYLLABLE RI}) missing from font(s) DejaVu Sans.
+      fig.tight_layout()
+    /home/users/navy030303/dft_ni_complexes/cobalt_window.py:256: UserWarning: Glyph 44032 (\N{HANGUL SYLLABLE GA}) missing from font(s) DejaVu Sans.
+      fig.tight_layout()
+    /home/users/navy030303/dft_ni_complexes/cobalt_window.py:256: UserWarning: Glyph 45733 (\N{HANGUL SYLLABLE NEUNG}) missing from font(s) DejaVu Sans.
+      fig.tight_layout()
+    /home/users/navy030303/dft_ni_complexes/cobalt_window.py:256: UserWarning: Glyph 47784 (\N{HANGUL SYLLABLE MO}) missing from font(s) DejaVu Sans.
+      fig.tight_layout()
+    /home/users/navy030303/dft_ni_complexes/cobalt_window.py:256: UserWarning: Glyph 46160 (\N{HANGUL SYLLABLE DU}) missing from font(s) DejaVu Sans.
+      fig.tight_layout()
+    /home/users/navy030303/dft_ni_complexes/cobalt_window.py:256: UserWarning: Glyph 48520 (\N{HANGUL SYLLABLE BUL}) missing from font(s) DejaVu Sans.
+      fig.tight_layout()
+    /home/users/navy030303/dft_ni_complexes/cobalt_window.py:258: UserWarning: Glyph 51020 (\N{HANGUL SYLLABLE EUM}) missing from font(s) DejaVu Sans.
+      fig.savefig(p, dpi=160, bbox_inches='tight')
+    /home/users/navy030303/dft_ni_complexes/cobalt_window.py:258: UserWarning: Glyph 51060 (\N{HANGUL SYLLABLE I}) missing from font(s) DejaVu Sans.
+      fig.savefig(p, dpi=160, bbox_inches='tight')
+    /home/users/navy030303/dft_ni_complexes/cobalt_window.py:258: UserWarning: Glyph 50728 (\N{HANGUL SYLLABLE ON}) missing from font(s) DejaVu Sans.
+      fig.savefig(p, dpi=160, bbox_inches='tight')
+    /home/users/navy030303/dft_ni_complexes/cobalt_window.py:258: UserWarning: Glyph 50577 (\N{HANGUL SYLLABLE YANG}) missing from font(s) DejaVu Sans.
+      fig.savefig(p, dpi=160, bbox_inches='tight')
+    /home/users/navy030303/dft_ni_complexes/cobalt_window.py:258: UserWarning: Glyph 48516 (\N{HANGUL SYLLABLE BUN}) missing from font(s) DejaVu Sans.
+      fig.savefig(p, dpi=160, bbox_inches='tight')
+    /home/users/navy030303/dft_ni_complexes/cobalt_window.py:258: UserWarning: Glyph 47532 (\N{HANGUL SYLLABLE RI}) missing from font(s) DejaVu Sans.
+      fig.savefig(p, dpi=160, bbox_inches='tight')
+    /home/users/navy030303/dft_ni_complexes/cobalt_window.py:258: UserWarning: Glyph 44032 (\N{HANGUL SYLLABLE GA}) missing from font(s) DejaVu Sans.
+      fig.savefig(p, dpi=160, bbox_inches='tight')
+    /home/users/navy030303/dft_ni_complexes/cobalt_window.py:258: UserWarning: Glyph 45733 (\N{HANGUL SYLLABLE NEUNG}) missing from font(s) DejaVu Sans.
+      fig.savefig(p, dpi=160, bbox_inches='tight')
+    /home/users/navy030303/dft_ni_complexes/cobalt_window.py:258: UserWarning: Glyph 47784 (\N{HANGUL SYLLABLE MO}) missing from font(s) DejaVu Sans.
+      fig.savefig(p, dpi=160, bbox_inches='tight')
+    /home/users/navy030303/dft_ni_complexes/cobalt_window.py:258: UserWarning: Glyph 46160 (\N{HANGUL SYLLABLE DU}) missing from font(s) DejaVu Sans.
+      fig.savefig(p, dpi=160, bbox_inches='tight')
+    /home/users/navy030303/dft_ni_complexes/cobalt_window.py:258: UserWarning: Glyph 48520 (\N{HANGUL SYLLABLE BUL}) missing from font(s) DejaVu Sans.
+      fig.savefig(p, dpi=160, bbox_inches='tight')
+    활동도 모델: 3성분 ChCl:CA:H2O (x_H2O=0.80, 실험조건)
+    Ni 보정값을 전 금속에 전용: shift=+67.6 kJ/mol per Cl-, alpha=0.1057
+      ⚠ NiCl1_aq5: 허수 1개 (최대 28 cm-1)
+      ⚠ Co_aq6: 허수 2개 (최대 142 cm-1)
+      ⚠ CoCl1_aq5: 허수 1개 (최대 125 cm-1)
+      ⚠ Mn_aq6: 허수 5개 (최대 111 cm-1)
+      ⚠ MnCl1_aq5: 허수 1개 (최대 136 cm-1)
+      ⚠ MnCl2_aq4: 허수 1개 (최대 65 cm-1)
+    사용 금속: Ni, Co, Mn
+    
+    반응 열역학 (각 금속의 아쿠아 착물 기준, 보정 전)
+      종            기하     dH kJ/mol  dS J/mol/K   dG(60C)
+      Ni_aq6       Oh          +0.0        -0.0      +0.0
+      NiCl1_aq5    Oh         -58.9       +17.1     -64.6
+      NiCl2_aq4    Oh        -107.9       +55.1    -126.2
+      NiCl3_aq1    Td         -76.7      +366.7    -198.9
+      NiCl4        Td        -114.4      +388.6    -243.9
+      Co_aq6       Oh          +0.0        -0.0      +0.0
+      CoCl1_aq5    Oh         -57.6       +49.0     -73.9
+      CoCl2_aq4    Oh        -106.4       +79.8    -133.0
+      CoCl3_aq1    Td        -125.9      +379.6    -252.4
+      CoCl4        Td        -170.2      +402.4    -304.3
+      Mn_aq6       Oh          +0.0        -0.0      +0.0
+      MnCl1_aq5    Oh         -56.1       +69.2     -79.1
+      MnCl2_aq4    Oh        -106.4       +92.8    -137.3
+      MnCl3_aq1    Td        -115.0      +395.2    -246.7
+      MnCl4        Td        -161.5      +421.9    -302.0
+    
+    전환선 (f_Td = 0.5 가 되는 온도, °C)
+      x(ChCl)  Ni         Co         Mn        
+      0.05     106        >125       >125      
+      0.10     103        >125       >125      
+      0.15     101        >125       >125      
+      0.20     99         >125       >125      
+      0.25     97         >125       >125      
+      0.30     96         >125       >125      
+      0.35     94         >125       >125      
+      0.40     93         >125       >125      
+      0.45     92         >125       >125      
+      0.50     91         >125       >125      
+      0.55     90         >125       >125      
+      0.60     89         >125       >125      
+      0.65     88         >125       >125      
+      0.70     87         >125       >125      
+      0.75     86         >125       >125      
+      0.80     85         >125       >125      
+      0.85     84         >125       >125      
+      0.90     83         >125       >125      
+      0.95     83         >125       >125      
+    
+    wrote /home/users/navy030303/dft_ni_complexes/window.csv
+    wrote /home/users/navy030303/dft_ni_complexes/window_map.png
+    
+    한계: Ni 보정값을 Co·Mn 에 전용 (용매 오차가 금속 무관이라는 가정).
+          a_Cl 은 이온쌍 대리변수. 절대값 인용 금지.
+          Mn 은 d5 고스핀이라 d-d 가 전부 스핀금지 -> 분광 검증 불가, dG 만 유효.
+
+[3] 해석 시 지켜야 할 선 (2026-09-27 확정 주장 범위)
+  - 조성비 -> 활동도 -> 화학종 까지만 주장한다.
+  - 화학종 -> 침출효율 은 제언(future work). 효율 수치를 말하지 않는다.
+
+[4] 반드시 같이 말할 한계
+  - Ni 앵커로 구한 보정값(shift, alpha)을 Co·Mn 에 전용했다.
+    용매 오차가 금속에 무관하다는 가정이다.
+  - a_Cl 은 중성 이온쌍 근사의 대리변수다. 절대값 인용 금지.
+  - Mn(II) 는 d5 고스핀이라 d-d 가 전부 스핀금지 -> 분광 검증 불가, dG 만 유효.
+  - Ni<Mn<Co 같은 착물 형성 순서를 문헌으로 확정하지 못했다.
+    즉 이 결과는 "아는 답의 확인" 이 아니라 **예측**이다. 원문 대조가 남아 있다.

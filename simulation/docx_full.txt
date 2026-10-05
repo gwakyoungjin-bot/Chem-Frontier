@@ -1,0 +1,303 @@
+DES(공융용매) 조성비 최적화
+선행연구 종합 문헌조사 보고서
+— 관행적 몰비(1:1, 1:2, 2:1)는 정말 성능 최적점인가? —
+2026 Chem Frontier · AI 기반 친환경 침출 용매 스크리닝
+팀 전지전능
+작성일 2026-08-07
+목차
+1. 요약
+2. 프로젝트 배경
+3. 핵심 용어 정리
+4. 주제별 문헌 정리
+4.1 이종 유기산 혼합 침출계 (수용액, DES 아님)
+4.2 DES 기반 금속·배터리 침출
+4.3 DES 물성의 ML/QSPR 예측
+4.4 DES 조성-성능 최적화 실험 (천연물 추출 RSM/Box-Behnken)
+4.5 COSMO-RS 기반 DES 설계·스크리닝
+4.6 DES 시뮬레이션 방법론의 난제
+4.7 공융점 이론 및 '관행 비율' 비판
+4.8 학계-산업 괴리에 대한 비판
+5. 핵심 발견 정리
+6. 갭 분석 시각화
+7. 팀 연구의 학술적 포지셔닝 제안
+8. 다음 단계 제안
+9. 전체 참고문헌 목록
+10. 부록(미주)
+1. 요약
+결론 — DES의 관행적 몰비(1:1, 1:2, 2:1 등)는 '성능이 최적이라서'가 아니라 '공융점(액체로 존재 가능한 조성)에 가깝다는 이유'로 채택되어 왔다는 것이 다수의 권위 있는 리뷰(Abranches & Coutinho 2023, 2022)에서 확인 가능하다. 이 관행을 '몰비를 연속변수로 다루면서 목표 성능(침출효율 등)까지 함께 최적화'하는 방식으로 정면 도전한 선행연구는, 이번 조사 범위 내에서 금속(침출)회수 분야에서는 확인되지 않았다. 이 부분이 핵심 차별점이 될 수 있다.
+진행 과정:
+Q1. 우리와 같은 방향(조성비, 온도 최적화)의 선행연구 조사
+→ 혼합 유기산 침출(Burgess 2024), DES 스크리닝(Amusa 2025)
+Q2. 이종 유기산 혼합계 =/= DES
+→ 개념적으로 다름: DES는 공융점 형성이 정의 조건, 이종 유기산 수용액은 아니다.
+Q3. 조성비 결정의 경향성/방향성을 다룬 논문 조사
+→ DES 물성(점도, 전도도 등)의 비율 의존성 연구는 많으나, '침출효율' 등 목표 성능 기준 비율 최적화 연구는 거의 없다.
+Q4. 다양한 검색 키워드 조합으로 범위를 넓혀 논문 조사
+→ 천연물 추출 분야 RSM논문 다수 확인, 그러나 '비율은 사전선정 후 고정, 다른 변수만 RSM' 패턴이 반복된다.
+Q5. 왜 몰비를 심층적으로 연구하지 않는가? ML/시뮬레이션 결합 사례는?
+→ 조합의 개수가 매우 증가하므로 이에 따라 증가하는 실험비용이 근본 이유(Velez & Acevedo 2022)이다. Qin et al. 2024 (Bayesian Experimental Design + COSMO-RS) 최적화가 방법론적으로 가장 근접한 선례로 확인되었다.
+2. 프로젝트 배경
+2.1 워크플로우 핵심
+'케미프론티어_워크플로우노트' 기준 프로젝트 개요
+2.2 핵심가설
+핵심 가설: 학계에서 통용되는 DES 몰비(1:1, 1:2, 2:1 등)가 실은 소수의 관행적 값에 머물러 있고, 'DES 물질별로 더 나은 (온도별) 조성비가 존재할 수 있다'는 가설을 세웠다.
+3. 핵심 용어 정리
+3.1 용어 정리
+3.2 DES & 이종 유기산 혼합계
+이종 유기산 혼합계가 곧 DES는 아님. 둘은 겹칠 수 있으나 서로 다른 개념임.
+3.3 조합폭발
+조합폭발(combinatorial explosion): 변수(요인)의 개수가 늘어날 때, 가능한 조합의 총 개수가 곱셈적으로(exponentially) 폭증하는 현상
+DES(공융용매) 맥락에서 예를 들면:
+- HBA(수소결합수용체) 후보가 15종, HBD(수소결합공여체) 후보가 45종이면 → 조합만 675개 (앞서 조사한 Amusa et al. 2025가 실제로 이 규모)
+- 여기에 몰비까지 연속변수로 추가하면(1:1, 1:2, 1:3, 1:4, 1.5:1... 등 무한히 세분화 가능) → 조합 수가 사실상 무한대로 늘어남
+- 온도까지 세 번째 변수로 넣으면 → (HBA × HBD × 비율 × 온도)로 조합 공간이 다시 곱해짐
+Velez & Acevedo(2022); 실질적으로 무한한 합성 조합으로 DES를 맞춤 설계하는 것은 대규모 실험 측정에 드는 비용과 시간 때문에 오히려 장애물이 될 수 있다; 왜 몰비를 심층 연구하지 않는 핵심 이유. 조합폭발을 소수의 실험만으로 우회하기 위해 ML/베이지안 최적화 기법이 필요.
+4. 주제별 문헌 정리
+총 35편을 8개 주제군으로 분류했다.
+'검증(VERIFIED)' : OpenAlex 서지검증 여부
+'원문 확인' : Agent 딥다이브를 통해 초록 이상 수준(방법론, 수치)까지 확인 여부
+4.1 이종 유기산 혼합 침출계 (수용액, DES 아님)
+공융점 형성 여부와 무관하게 두 유기산을 물에 녹여 만든 침출 수용액을 다룬 논문들.
+기존에 계획했던 '이종 유기산 혼합계' 방향과 가장 직접적으로 겹치는 문헌군
+상세 결과
+Burgess et al. 2024 — 실제 제목은 "...mixed-acid leaching..."으로 DES 언급 없음. citric acid 단독(0.5M, 90°C, 60분)이 Li 83%·Mn 84%·Co 80%·Ni 80%를 침출해 maleic acid 단독보다 강한 침출제였고, 두 산을 혼합했을 때 오히려 "synergy 부재"로 개별 산보다 성능이 저하되는 경향이 확인됨. 이는 "두 산을 섞으면 무조건 좋아진다"는 통념에 대한 반례 (흥미로운 지점)
+Golmohammadzadeh et al. 2017 — citric/DL-malic/oxalic/acetic acid 4종을 사용하고 RSM(반응표면법)으로 산 종류·농도·H2O2 농도·온도·고액비·시간을 동시 최적화. 최적조건(60°C, 구연산 2M, H2O2 1.25%, 2시간)에서 Li 92%·Co 81% 회수. 45°C를 기점으로 Co 침출 메커니즘이 화학반응제어→확산제어로 전환된다는 점까지 규명 — 온도가 "가장 영향력 있는 변수"로 명시됨.
+Roshanfar et al. 2018 — 산 종류(gluconic vs lactic)는 사전 스크리닝으로 lactic acid를 선정한 뒤, 농도·고액비·온도·H2O2 농도는 RSM으로 정식 최적화하는 혼합형 설계. 79°C, lactic acid 1.52M에서 Li 100%·Co 97.36% 회수 — 매우 높은 회수율. 이 논문은 "산 종류 선택은 범주형 스크리닝, 농도는 연속변수 최적화"라는 구조라 6.4절의 DES 추출 논문 패턴과 유사합니다.
+Gergorić et al. 2018 — citric acid와 acetic acid를 각각 단독으로 사용(혼합 아님)해 비교. 1 mol/L 농도에서 두 산 모두 REE(희토류) 거의 100%(citric) / 95% 이상(acetic) 회수 — 농도 효과를 정량적으로 제시한 명확한 사례.
+4.2 DES 기반 금속·배터리 침출
+HBA(주로 choline chloride)와 HBD(유기산 등)를 조합한 실제 DES를 침출제로 사용해 리튬이온배터리 양극재에서 금속을 회수한 논문들
+상세 결과
+Amusa et al. 2025 — 15종 HBA × 45종 HBD = 675개 조합을 COSMO-RS로 계산 스크리닝한 뒤 8개만 실험 검증하는 구조가 원문에서 확인되었음. glycine/betaine/carnitine/vitamin C/citric acid 기반 DES 중 TVW·GVW 조합이 80°C·2시간에서 Li 99% 이상·Co 98% 이상을 회수했고 7회 재사용 가능했습니다. 다만 이 675/8 스크리닝 과정에서 몰비 자체를 변수로 다뤘는지는 어떤 소스에서도 명시되지 않아 확인이 불가했습니다 — 팀이 원문 확보 시 최우선으로 확인할 가치가 있는 지점
+Peeters et al. 2020 — choline chloride–citric acid DES로 LCO(리튬코발트산화물)에서 Co를 회수. Al/Cu 집전체가 공존하는 실제 폐배터리 조건까지 고려한 초기 대표 연구.
+Lu et al. 2022 — ChCl+malonic acid DES가 침출제 겸 환원제로 동시 작용. XANES 분석으로 Co(II)-Cl 착물 형성을 규명. 100°C("lower temperature"로 표현)에서 Co 98.61%·Li 98.78% 회수 — 이 표현으로 미루어 본문에 더 높은 온도 조건도 있었을 가능성이 있으나 초록만으로는 확인 불가.
+Chen et al. 2022 — PEG(HBA)+아스코르빈산(HBD) 조합, 80°C·72시간에서 Co 84.2% 회수 — 기존 DES보다 우수. 두 성분 모두 저렴·생분해성이라는 점을 강조.
+Yu et al. 2022 — choline chloride 기반 DES, 200°C·20시간에서 Co 96% 회수 — 온도 상승에 따른 효율 증가 경향을 Chen(2022)과 함께 명확히 뒷받침.
+Peeters et al. 2022 — ★반증 사례★ ChCl:EG(에틸렌글리콜) DES가 180°C 고온에서는 오히려 열분해되어 trimethylamine 등 유해 분해산물을 생성한다는 것을 구조분석으로 규명. "온도는 높을수록 좋다"는 단순 가정에 대한 명확한 반례이며, 팀의 온도 스윕 실험 설계 시 반드시 참고해야 할 상한 제약 사례.
+Thompson et al. 2022 — 옥살산:choline chloride DES로 Co/Mn만 선택적으로 침출시키고 Ni는 고체 잔류물로 남기는 데 성공 — "조성 조합 자체가 선택성을 좌우한다"는 근거.
+4.3 DES 물성의 ML/QSPR 예측
+DES의 물리적 물성(점도·밀도·전기전도도·CO2 용해도)을 몰비·온도 함수로 예측하는 머신러닝/QSPR 문헌군 우리 팀이 계획한 파이프라인(ML+COSMO-RS descriptor)과 방법론적으로 가장 가까운 선례
+상세 결과
+Kovács et al. 2020 — "조성비 조절로 물성을 튜닝 가능"이라 명시하며 DFT·MD·COSMO-RS·PC-SAFT·그룹기여법·ML을 종합 정리 — 비율을 조절변수로 보는 프레임의 대표 리뷰.
+Mohan et al. 2024 — 670개 DES, 278.15~385.25K 범위에서 온도+몰비를 COSMO-RS σ-profile과 결합해 CatBoost로 점도 예측(R²=0.99, AARD 5.22%). SHAP 분석으로 변수 기여도까지 해석 — 팀 파이프라인과 데이터 구조·변수 구성이 거의 동일한 최강 선례
+Abdollahzadeh et al. 2022 — 149개 DES, 7개 ML 기법(LSSVR이 최고 성능, MAPE 0.26%) 비교 — 소규모 데이터(149개)로도 높은 예측력이 가능함을 보여주는 데이터 규모 근거로 재사용 가능.
+Lemaoui et al. 2020 — HBA+HBD+molar ratio+온도를 명시적 변수로 넣은 QSPR 모델. 상호작용항 포함 시 R²가 0.801→0.985로 향상 — "비율을 연속변수로 다룬 정량모델"의 명확한 실제 사례.
+Wang et al. 2021 — 1,011개 데이터, molar ratio를 랜덤포레스트 입력변수로 사용한 QSPR 모델 — ML+COSMO-RS 결합 방법론의 직접적 선례.
+Duarte de Alencar et al. 2024 — 1,891개 점도 측정치, 279개 서로 다른 조성(비율 포함)을 ANN+COSMO-SAC descriptor로 학습, 훈련에 없던 성분에 대한 외삽 능력까지 입증 — 비율을 연속변수로 다룬 대규모 데이터셋의 또 다른 사례(단, 물성=점도이며 성능 지표는 아님).
+4.4 DES 조성-성능 최적화 실험 (천연물 추출 RSM/Box-Behnken)
+식품·제약 분야에서 DES를 이용해 천연물(페놀, 안토시아닌 등)을 추출하며 몰비를 실제로 실험적으로 다룬 논문군 이 문헌군에서 팀 가설을 정교화하는 핵심 패턴이 발견되었습니다.
+발견된 패턴 —  "몰비는 1:1, 1:2, 1:3, 1:4처럼 몇 개 후보를 한 번씩 실험해보고 '제일 잘 나온 것' 하나를 고정한 뒤, 그 다음 온도·시간·용매비 등 다른 변수만 RSM/Box-Behnken으로 정식 최적화한다"는 관행이 5편 중 4편에서 원문으로 확인되었습니다.
+상세 결과
+Cao et al. 2017 — methyl trioctyl ammonium chloride + 1-butanol을 1:4 몰비로 만든 DES(N81Cl-NBA)가 "가장 높은 추출 수율"을 보여 채택됨. 이후 온도·시간·초음파 출력 등은 CCD+RSM으로 정식 최적화(45°C, 70분, 180W). 몰비 자체는 사전 스크리닝에서 확정, RSM 대상이 아니었음.
+Cao et al. 2018 — choline chloride + malonic acid를 1:2 몰비, 물 55%(w/w)로 배합한 Ch-M55를 "합리적으로 설계"해 채택. 이후 온도(65°C)·시간(53분)·고액비(10.57:1)는 CCD+RSM으로 최적화, PAC 수율 22.19 mg/g 달성. 비율은 고정 후 다른 변수만 RSM — 6.4절 패턴과 정확히 일치.
+Zheng et al. 2021 — betaine:glycerol을 1:2 몰비로 "총페놀함량(TPC) 기준으로 선정"한 뒤, 물함량·온도·시간·초음파출력을 Box-Behnken RSM으로 최적화(29mL/100mL 물, 61°C, 31분). 비율 사전선정→고정 패턴이 원문 초록에서 명확히 확인됨.
+Pal & Jadeja 2019 — PMC 전문(PMC6706514) 확인 결과: ChCl:Sucrose(4:1), ChCl:Urea(1:2), ChCl:Oxalic acid(1:1), ChCl:Sorbitol(3:1) 등 4개의 서로 다른 DES 시스템을 각각 고정 비율로 준비해 비교했고 ChCl:Urea가 최고 성능으로 선정됨. Box-Behnken은 마이크로웨이브 출력·시간·고액비 3개 변수에만 적용(17회 실험, 5개 중심점). 최적조건 100W·15.03분에서 TPC 80.45 mg GAE/g 획득 — 이 논문 역시 "비율 후보 간 1회씩 비교→고정→다른 변수 RSM" 패턴의 교과서적 사례.
+Naseem et al. 2021 — 원문 페이월로 직접 확인은 실패했으나, 이 논문을 인용한 2025년 후속 논문에서 "1 mole ChCl과 2 mol EG가 문헌 검토를 통해 선택되었다"는 서술이 확인되어, 동일한 '표준비율 채택 후 다른 변수 최적화' 패턴과 일치하는 것으로 추정됩니다(2차 인용 기반, 원문 직접 확인 아님에 유의).
+Almashjary et al. 2018 — ★경계/예외 사례★ choline chloride(HBA)+propionic acid(HBD) 조합에서 "DES 몰비, 온도, 초음파 시간의 영향"을 함께 연구했다고 명시하며, 몰비 1:2와 1:3 두 수준을 RSM 변수들과 나란히 제시. 다만 수준이 2개뿐이라 일반적인 3수준 이상의 RSM 연속인자로 보기는 어렵고, 범주형 비교에 가까울 가능성이 있습니다. 최적 조건은 1:3 비율·37°C·10분 초음파에서 DBT 제거효율 64.9%. 원문은 CAPTCHA로 직접 접근하지 못해 설계행렬(design matrix)의 정확한 구조는 확인하지 못했습니다 — 팀이 "비율을 RSM 인자로 포함한 유일한 예외 사례일 수도 있다"는 점에서 원문 확보 우선순위가 높습니다.
+4.5 COSMO-RS 기반 DES 설계·스크리닝
+계산화학(COSMO-RS)으로 다수의 DES 후보를 스크리닝하거나 설계한 논문들 팀이 계획한 시뮬레이션 단계와 방법론적으로 직접 연결됩니다.
+상세 결과 — 팀 가설에 가장 중요한 두 편 포함
+Zurob et al. 2020 — 당류 4종+유기산 4종으로 NADES 8종을 제조, COSMO-RS로 검증. citric acid:glycine:water(2:1:1)에서 하이드록시타이로솔 87ppm 추출(물 대비 4배 이상). 다만 이 비율 표기는 8개 NADES 각각에 대한 고정 배합으로 보이며, 비율 자체를 DoE로 스윕한 근거는 확인되지 않았습니다(원문 페이월로 2차 소스 기반 정보에 그침).
+Jelinski & Cysewski 2018 — ★핵심 반증 사례★ PMC 원문에서 결정적 문장을 확보했습니다: "A unimolar ratio of the constituents was adopted to mimic the regime applied in experimental measurements." — 즉 126개 NADES 스크리닝은 21개 카르복실산(HBA) × 6개 아미노산(HBD)의 조합 수일 뿐, 동일 쌍의 비율 변화는 스크리닝에 전혀 포함되지 않았습니다. 목표 성능(rutin 용해도) 기준 계산 스크리닝임에도 몰비는 1:1로 고정 — "COSMO-RS 스크리닝조차 몰비를 최적화 대상으로 다루지 않는다"는 가장 직접적인 증거
+Abranches et al. 2019 (Fluid Phase Equilibria) — choline chloride 기반 신규 공융계의 공융온도(eutectic temperature)를 실험으로 측정하고 COSMO-RS로 예측하는 방법론을 개발, 대규모 매트릭스 스크리닝과 제약 약물 혼합물에 적용. 이 논문의 목표변수는 "성능"이 아니라 "공융온도 자체(액체 상태 여부 판별)"였다는 점이 중요합니다 — 팀 가설("관행적 비율=공융점 근접 때문")과 정확히 부합하는 사례
+Qin et al. 2024 — ★팀 방법론 최근접 선례★ COSMO-RS 시뮬레이션과 베이지안 최적화(BED)를 결합해 리그닌 유래 방향족 화합물의 CPC(원심분배크로마토그래피) 분리를 위한 그린 용매 혼합계를 단 7회 반복(iteration), 반복당 40개 혼합물 실험(총 최대 280개 데이터포인트)만으로 식별. 목표변수는 분배계수(log₁₀Kp). 다만 "mixture"가 두 용매 성분 간 비율(mole/volume fraction)을 연속변수로 스윕한 것인지, 아니면 8종 후보 용매 중 어떤 조합을 쓸지의 "성분 선택"을 의미하는지는 원문 페이월로 확정하지 못했습니다 — 팀 방법론과 구조적으로 가장 가까운 선례이므로, 원문(대학 도서관 프록시 등) 확보를 최우선으로 권장합니다.
+4.6 DES 시뮬레이션 방법론의 난제
+DES를 계산화학적으로 다루는 것 자체가 왜 어려운지를 정리한 리뷰 논문들 "왜 몰비를 심층 탐색하지 않았는가"에 대한 근본 근거를 제공합니다.
+상세 결과 — '왜 안 했나'에 대한 가장 직접적인 문헌 근거
+Tolmachev et al. 2022 — DES는 비이상적 거동, 비대칭 성분, 복잡한 정전기적 상호작용 때문에 원자 단위 모델링(DFT, MD) 자체가 무겁고 까다롭다고 지적. 결론에서 ML을 해법으로 명시적으로 지목.
+Velez & Acevedo 2022 — ★가장 결정적인 근거★ 원문 인용: "tailoring DESs for specific applications through their practically unlimited synthetic combinations can be as much a hindrance as a benefit given the expense and time-required to perform large-scale experimental measurements." — 실질적으로 무한한 합성 조합(HBA×HBD×비율)으로 DES를 맞춤 설계하는 것이 대규모 실험 측정에 드는 비용과 시간 때문에 오히려 장애물이 된다는 것을 학계 스스로 인정한 문장 즉 몰비를 포함한 전면적 탐색이 안 된 이유는 '학문적 무관심'이 아니라 '조합폭발(combinatorial explosion)+실험비용'이라는 구조적 한계 때문임을 뒷받침합니다.
+4.7 공융점 이론 및 '관행 비율' 비판
+DES 정의의 이론적 뿌리(공융점)와, 그 정의가 실무에서 어떻게 오·남용되어 왔는지를 다루는 문헌군 팀 가설을 가장 직접적으로 뒷받침하는 핵심 섹션
+상세 결과
+Martins et al. 2018 — 원문 직접 확보는 실패(Springer 로그인 요구)했으나, Abranches & Coutinho(2023)가 이 논문을 "eutectic solvent vs. deep eutectic solvent 구분(비이상성 여부)을 최초로 제안한 논문"으로 인용 — 즉 "고정 몰비=공융점"이라는 통념의 이론적 토대를 놓은 원 논문으로 간접 확인됩니다.
+Hammond et al. 2017 — ChCl:urea:water DES의 나노구조가 물 함량(비율의 일종)에 따라 42wt%까지는 유지되다가 51wt%(83mol%)를 넘으면 완전히 붕괴됨을 중성자 산란으로 실증 — 비율이 물성에 미치는 민감도를 정량적으로 보여주는 근거.
+★팀 가설을 가장 강력하게 뒷받침하는 문헌★ 전문(PDF)에서 결정적 문단을 확보했습니다:
+"Conventional wisdom in the DES community holds that the eutectic point must be found at fixed, magical stoichiometric proportions of 1:2, 1:1, or 2:1 that would correspond to a special arrangement of a complex occurring in the liquid phase... Actually, the eutectic point, which seldom corresponds to any of those stoichiometric ratios, is a characteristic of the solid phase and its fusion process, not of the liquid phase... Looking for the eutectic point in the liquid phase is a futile task."
+즉 저자들은 "1:2, 1:1, 2:1이 액상의 특별한 배열에 대응한다는 가정 자체가 결함(faulty assumption)"이라고 명시적으로 비판합니다. 근거로 인용한 Alizadeh et al.(2020, J. Phys. Chem. B, "Are there magic compositions in deep eutectic solvents?")과 Kollau et al.(2018, Chem. Commun., "Quantification of the liquid window of deep eutectic solvents")은 팀이 추가로 확인할 가치가 있는 후속 문헌입니다(본 조사에서 직접 검증하지 않음, 2차 확인 필요).
+Abranches & Coutinho 2022 (Type V DES) — "polarity asymmetry"(HBD-HBA 극성 비대칭)가 몰비보다 더 근본적인 설계 기준이라 주장하며, 저자는 "특정 몰비 하나의 녹는점을 측정하기보다 시스템 전체의 고액평형(SLE) 상평형도를 측정하는 것이 근본적으로 중요하다"고 강조. 결정적으로, thymol/camphor 시스템에서 "camphor 몰분율 0.2~0.7 범위 전체에서 액체 유지가 가능하며 조성 조절만으로 물성을 쉽게 튜닝할 수 있다"는 구체적 수치를 제시 — 고정 비율에 얽매일 필요가 없다는 실증 사례 또한 "1:1 몰비에서는 오히려 공융결정(cocrystal)이 형성돼 액화에 불리할 수 있다"는 반증까지 제시합니다.
+Abranches et al. 2019 (Chem. Commun.) — "DES라고 보고된 혼합물 다수가 실은 이상혼합물(ideal mixture)일 뿐"이라 지적 — thymol-menthol 시스템에서 페놀성 히드록시기와 지방족 히드록시기의 산성도 차이가 비이온성 DES(Type V) 형성의 핵심 조건임을 규명. DES 정의 자체의 엄밀성 문제를 제기한 초기 논문.
+4.8 학계-산업 괴리에 대한 비판
+상세 결과
+Binnemans & Jones 2023 — ★핵심 근거★ DES/이온성액체 분야 최고 권위자 중 한 명인 Binnemans가 직접 쓴 오피니언 논문. 지난 10~20년간 학계가 IL/DES를 추출야금의 '게임체인저'로 계속 홍보해왔지만 상업적 돌파구는 전혀 없었다고 인정하며, 실패 원인으로 (1)높은 점도, (2)공정 조건에서의 낮은 화학적 안정성, (3)재활용·재사용의 어려움, (4)파일럿 규모 공정·플로우시트 부재, (5)공학적 목적에 쓸 물성 데이터 부족, (6)인허가 행정 부담, (7)대규모 운영 비용, (8)기존 습식제련 대비 낮은 부가가치를 명시적으로 나열합니다. 이 중 (5) '물성 데이터 부족'이 팀 가설과 정확히 맞닿아 있습니다 — 관행적 비율만 반복 사용되어온 탓에 조성-성능 관계 데이터베이스 자체가 산업 적용에 필요한 만큼 축적되지 못했다는 뜻으로 해석할 수 있습니다.
+5. 핵심 발견 정리
+5.1 관행적 비율(1:1, 1:2, 2:1) 기원; 공융점일 뿐, 성능 최적점이 아니다
+가장 강력한 근거는 Abranches & Coutinho(2023)으로, 이들은 "1:2, 1:1, 2:1이 액상의 특별한 배열에 대응한다는 것은 결함 있는 가정(faulty assumption)"이라 비판하며, 공융점은 액상이 아닌 고체상의 융해 과정에서 우연히 결정되는 값이라고 설명한다. Abranches & Coutinho(2022)는 여기서 더 나아가 thymol/camphor 시스템에서 몰분율 0.2~0.7 범위 전체가 액체로 유지된다는 구체적 수치까지 제시하며, "고정 비율에 얽매일 필요가 없다"는 것을 이미 보여주었다.
+5.2 왜 몰비를 심층적으로 연구하지 않았는가 — 조합폭발과 계산 난제
+이유 1 — 실험적 조합폭발: Velez & Acevedo(2022)가 원문에서 직접 인정: HBA×HBD×비율의 조합 수가 사실상 무한해 대규모 실험 측정 비용과 시간이 감당 불가능한 수준이라는 것.
+이유 2 — 계산화학적 난제: Tolmachev et al.(2022)에 따르면 DES는 비이상적 혼합물이라 MD/DFT 시뮬레이션 자체가 무겁고 까다로워, 계산으로 대신하는 것도 간단한 해법이 아니었음.
+- 이상혼합물(ideal mixture): A와 B를 섞을 때, A-B 사이의 상호작용이 A-A, B-B 상호작용의 평균과 거의 같은 경우. 라울의 법칙(Raoult's law)이 그대로 성립하고, 섞는다고 해서 특별히 에너지가 나오거나 들어가지 않습니다. 녹는점도 두 성분의 녹는점을 단순히 조성비로 가중평균한 정도로만 낮아진다.
+- 비이상혼합물(non-ideal mixture): A-B 사이에 A-A, B-B보다 훨씬 강한 특이적 상호작용(대표적으로 수소결합)이 생겨서, 라울의 법칙 예측보다 훨씬 크게 어긋나는 경우.
+DES가 바로 후자의 극단적인 사례. Choline chloride 같은 HBA(수소결합수용체)의 Cl⁻ 음이온과 요소&유기산 같은 HBD(수소결합공여체)의 −OH/−COOH가 만나면, 순수 성분일 때보다 훨씬 강한 국소적 수소결합 네트워크가 형성됩니다. 이 상호작용이 너무 강해서 결정격자를 이루기 어려워지고, 그 결과 "녹는점이 이상혼합물 예측보다 훨씬 더(deep) 내려간다" → 이게 Deep Eutectic Solvent라는 이름의 유래입니다. 즉 DES는 정의상으로도 비이상성이 극단적으로 큰 물질임.
+비이상성은 어떻게 계산(시뮬레이션)을 어렵게 만드는가? (Tolmachev et al.(2022))
+1. 고전 분자동역학(MD)의 전하 모델 한계: 일반적인 MD force field는 원자마다 고정된 점전하를 부여한다. 그런데 DES의 강한 수소결합 네트워크에서는 HBA-HBD 사이에 실제로 전하가 일부 이동(charge transfer)하거나 분극(polarization)이 일어나는데, 고정 전하 모델은 이걸 제대로 못 잡아내므로, → 시뮬레이션 결과가 실제 실험값(밀도, 점도)과 어긋나기 쉬움.
+2. 성분 간 크기&전하 비대칭(asymmetric components): 예를 들어, choline 양이온은 크고 유기 분자인데 Cl⁻은 작은 이온임. 이렇게 크기와 전하가 크게 다른 성분이 섞이면 nanostructure가 매우 불균일해지고, 이걸 통계적으로 의미 있게 포착하려면 시뮬레이션 박스를 훨씬 크게, 시뮬레이션 시간을 훨씬 길게 돌려야 하므로 계산 비용과 시간이 기하급수적으로 늘어남.
+3. 점도가 높아 평형(equilibration)이 오래 걸림: DES는 대체로 점도가 높은 액체이므로, MD에서 분자가 실제로 확산해서 안정된 구조에 도달하려면 시간이 오래 걸리는데, 짧게 돌리면 아직 평형에 도달하지 못한 가짜 구조를 결과로 얻게 됨.
+4. 양자역학적 효과가 무시 못할 수준: 수소결합이 너무 강하면 양성자 이동(proton transfer)까지 일어날 수 있어, 엄밀하게는 고전 MD가 아니라 DFT 같은 양자화학 계산이 필요하다. 그런데 DFT는 계산 비용이 MD보다 훨씬 비싸서, 대량의 조성비×온도 조합을 스크리닝하는 데는 현실적으로 못 씀(내가 배우지도 않음).
+5. COSMO-RS도 완벽한 해법은 아님: 팀이 쓰려는 COSMO-RS는 이 문제를 어느 정도 우회하는 방법이지만(연속체 용매화 모델+σ-profile), 그 자체가 근사이기 때문에 DES처럼 극단적으로 구조화된 수소결합 네트워크의 미세한 차이(예: 몰비가 1:2에서 1:2.3으로 살짝 바뀔 때의 효과)까지 정밀하게 잡아내는 데는 한계가 있음.
+결론: "비이상적이라 계산이 어렵다"는 게 바로 "이유 1"(조합폭발)과 합쳐지면 문제가 배가됨; 조합 수가 원래도 많은데, 그 각각을 정확하게 계산하는 것조차 비싸고 느리니, 학계가 몰비까지 포함한 전면적 탐색을 못 한 것이 이상한 일이 아니었음. ML은 일단 학습만 되면 개별 조성에 대해 DFT/MD보다 훨씬 빠르게 예측치를 내놓을 수 있으므로, ML을 도입해야 하는 이유이기도 하다.
+이유 3 — 산업 적용 데이터 공백: Binnemans & Jones(2023)는 이 문제가 산업 적용 실패의 한 원인(공학적 목적에 쓸 물성 데이터 부족)으로 이어졌다고 지적. 공백은 좋은 기회.
+5.3 천연물 추출 분야의 실무 관행 — '비율 사전선정 후 고정' 패턴
+6.4절에서 확인했듯, DES를 이용한 천연물 추출 최적화 논문(Cao 2017/2018, Zheng 2021, Pal 2019, Naseem 2021)에서 공통된 패턴은 [ 몰비 후보 몇 개를 한 번씩 실험 → 최고 성능 하나 선택 → 고정 → 이후 온도, 시간 등 다른 변수만 RSM/Box-Behnken으로 최적화 ]의 흐름을 띄고 있음. 즉 비율 자체가 성능 목적함수로 연속 최적화된 사례는 발견되지 않았다. 유일하게 경계선상에 있는 예외는 Almashjary et al.(2018)로, 몰비 2수준(1:2, 1:3)을 온도, 시간과 함께 다룬 것으로 보임.
+5.4 ML/COSMO-RS 문헌은 비율을 다루지만 '물성'이 목표이지 '성능'이 아니다
+Mohan(2024), Lemaoui(2020), Wang(2021), Abdollahzadeh(2022), Duarte de Alencar(2024) 등은 몰비를 연속 descriptor로 삼아 ML/QSPR로 점도, 밀도, 전도도, CO2 용해도를 정밀하게 예측한다. 그러나 이들의 목적변수는 모두 물리적 물성이지, 침출효율,추출수율,선택성 같은 "목표 성능"이 아님을 알 수 있다. Jelinski & Cysewski(2018)는 COSMO-RS로 목표 성능(용해도)까지 스크리닝했지만, 몰비는 1:1로 고정한 채 화학종 조합만 바꿨다는 것을 원문에서 확인함. ("unimolar ratio ... to mimic the regime applied in experimental measurements").
+5.5 팀 방법론과 가장 가까운 선례, 그러나 완전히 겹치지는 않는다
+ML+시뮬레이션+소량실험으로 비율-성능을 최적화하는 방법론 자체는 Qin et al.(2024)에 선례가 있음. 본 연구의 차별점은 이 방법론을 DES(공융용매)의 HBA:HBD 조성비 최적화라는, 아직 적용되지 않은 문제; 특히 금속 침출효율이라는 목표성능에 처음 적용한다는 데 있다.
+5.6 시뮬레이션 방법론 심층검증 — 2026-08-10 업데이트 (원문 전체 확보 완료)
+이전 버전에서 원문 미확보로 남겨뒀던 6편(Zurob 2020, Amusa 2025, Qin 2024, Velez & Acevedo 2022, Lemaoui 2020, Almashjary 2018)과 후속 후보 2편(Alizadeh 2020, Kollau 2018), 이론 근거 논문(Martins, Pinho & Coutinho 2018) 전문을 EndNote Click을 통해 확보하고 직접 확인했다.
+SW 스택 표준 확인 (3개 독립 그룹에서 동일 패턴)
+소프트웨어 워크플로우: Jeliński & Cysewski(2018), Abranches et al.(2019), Lemaoui et al.(2020) 세 독립 연구그룹 모두 동일한 워크플로우 사용 — TMoleX(TURBOMOLE GUI)로 3D 구조 생성·DFT 지오메트리 최적화(B3LYP 또는 BP86 + def-TZVP 계열 basis) → .cosmo 파일 생성 → COSMOthermX로 σ-profile 조합 및 물성 계산. 세 논문 모두 라이선스 비용·학생 접근 경로 언급 없음 — 랩실 자체 보유 여부 확인이 유일한 확인 경로.
+descriptor 변환 재확인: Lemaoui et al.(2020)에서 σ-profile을 –0.025~+0.025 e/Å 구간에서 10개 영역(각 0.005 e/Å 폭)으로 분할해 적분한 값을 descriptor로 사용. Mohan et al.(2024, 이전 조사)과 거의 동일한 스킴 — 영진 형 ML 파이프라인의 표준 벤치마크로 확정 가능.
+핵심 발견 — 몰비 스캔은 추가 DFT 계산이 필요 없음: Lemaoui(2020) Eq.(2)에서 DES descriptor S_DES^i는 HBA·HBD 각각의 descriptor를 몰분율(x_j)로 가중합한 값이다. 즉 HBA·HBD 화합물 각각에 COSMO 계산을 1회만 수행하면, 이후 몰비를 세밀하게 바꿔도 추가 DFT 계산 없이 저비용 후처리(가중합)로 계산 가능. 조합폭발은 HBA×HBD 화학종 선택 축에서만 발생하며, 몰비 축 자체의 스캔은 계산비용이 거의 들지 않는다는 것이 원문으로 확인됨.
+팀 핵심가설의 이론적 근거 확정: Martins, Pinho & Coutinho(2018) 원문 확보. "The eutectic composition results from the intersection of two melting curves that are dominated by the fusion properties... no stoichiometric meaning can be attributed to the eutectic composition... is obviously unsound." — 관행적 몰비=성능 최적점이 아니라는 팀 가설의 원 근거 논문을 확보함.
+실험적 재확인 경로: Kollau et al.(2018)은 같은 결론을 모세관 융점측정기 + regular solution theory(자유변수 1개, χ)만으로 실험적으로 재확인. COSMO-RS 등 계산화학이 전혀 필요 없는 저비용 검증 수단 — 민이 형 실험 설계 시 참고 가치 있음.
+비율 처리 패턴 원문 재확인: Naseem et al.(2021)은 ChCl:EG, ChCl:MA 몰비를 1:2로 고정한 뒤 시간·온도·biomass비율만 Box-Behnken RSM으로 최적화(6.4절 패턴과 일치). Almashjary et al.(2018)은 몰비(1:2, 1:3)를 2수준 범주형 요인으로 CCD 설계에 포함해 ANOVA로 유의성 확인(p<0.0001) — 비율도 성능에 영향을 준다는 통계적 증거이나 연속변수 최적화는 아님.
+분자동역학(AIMD) 경로 재확인: Alizadeh et al.(2020)은 CP2K/QUICKSTEP(BLYP+D3, 32~48개 이온쌍, 30ps 평형+37~50ps production)로 ChCl:EG 조성을 스윕해 "there are no magic compositions in deep eutectic solvents"라는 동일 결론을 분자동역학으로도 도출. 다만 Tolmachev(2022) 리뷰가 지적한 AIMD의 규모 제약(수십 개 분자, 수십 피코초)을 실제 스펙으로 보여주는 사례이기도 함.
+남은 미확보 문헌: 없음 (이번 업데이트로 전량 확보 완료).
+6. 갭 분석 시각화
+지금까지 확인한 문헌들을
+"몰비를 다루는 방식"(가로축: 고정/사전선정 → 연속변수·ML 최적화)과 
+"목적변수의 성격"(세로축: 물리적 물성 → 목표 성능)이라는 두 축에 배치하면, 
+우리 프로젝트가 위치할 "빈 자리"가 시각적으로 확인가능하다.
+차트 해석
+왼쪽 상단(초록 원)의 천연물 추출 RSM 논문들은 목표 성능은 최적화하지만 비율은 고정한다.
+오른쪽 하단(파란 사각형)의 ML/QSPR 논문들은 비율을 연속변수로 다루지만 목표는 물리적 물성이다.
+오른쪽 상단(빨간 음영 영역)에는 Qin et al.(2024, 주황 마름모)이 이미 위치한다. 이 논문은 실제로 몰비를 Latin hypercube 기반 연속 조성변수로 다루면서 목표 성능을 직접 최적화했다. 다만 대상이 DES가 아닌 일반 LLE 용매 혼합계라, "비율을 연속변수/ML로 최적화 + 목표 성능(침출효율) 직접 겨냥 + DES 대상"이라는 세 조건을 모두 만족하는 연구는 확인되지 않았으므로 빈 자리는 방법론 자체가 아니라, 이 방법론을 DES라는 대상에 처음 적용한다는 데 있다.
+7. 프로젝트의 학술적 포지셔닝 제안
+서론 제안 (국문 초안)
+DES(공융용매)의 관행적 몰비(1:1, 1:2, 2:1 등)는 공융점(액체로 존재 가능한 최저융점 조성)에 가깝다는 이유로 채택되어 왔을 뿐, 목표 성능을 기준으로 최적화된 것이 아니다(Abranches & Coutinho 2023, 2022). DES 조성-물성 관계는 ML/COSMO-RS로 정교하게 모델링되어 왔으나(Mohan 2024; Lemaoui 2020) 이는 점도·전도도 등 물리적 물성에 국한되며, 목표 응용 성능(침출효율 등)을 기준으로 몰비를 연속 최적화한 연구는 조사 범위 내에서 확인되지 않았다. 이러한 공백은 실험적 조합폭발과 비용(Velez & Acevedo 2022), 그리고 DES 시뮬레이션 자체의 계산적 난제(Tolmachev et al. 2022)에서 비롯된 것으로 보인다. 본 연구는 ML 예측·계산화학 시뮬레이션·소량 실험의 3자 교차검증을 통해 이 공백을 메운다.
+8. 다음 단계 제안
+[해결됨 2026-08-10] ① 원문 확보 최우선순위: Qin et al.(2024), Amusa et al.(2025), Almashjary et al.(2018) 3편의 원문(Methods/설계행렬)을 대학 도서관 프록시 등으로 확보 — 팀 가설의 '최초성' 강도를 좌우하는 최우선 확인 대상.
+[해결됨 2026-08-10] ② 신규 후속 문헌 확인: Alizadeh et al.(2020, J. Phys. Chem. B)와 Kollau et al.(2018, Chem. Commun.)의 "liquid window 정량화" 연구를 추가 검증; 몰비가 실제로 얼마나 넓은 범위에서 액체를 유지하는지의 정량적 근거를 보강.
+③ 실험 설계 전 필수 확인: 민이 형이 확정할 실제 산/HBA·HBD 조합이 정해지면, 그 조합의 상평형도(SLE phase diagram) 문헌을 우선 확인해 "액체로 존재 가능한 비율 범위"부터 좁힐 것을 권장; Hammond(2017), Abranches(2022)가 보여준 것처럼 비율 민감도가 시스템마다 크게 다를 수 있음.
+④ 데이터셋 설계 벤치마킹: Mohan et al.(2024)의 670개 DES 점도 데이터셋 구조(온도+몰비+COSMO-RS descriptor)를 팀 데이터셋 스키마 설계의 벤치마크로 활용; 재현성과 비교가능성 확보.
+⑤ 온도 실험 안전 범위 확인: Peeters et al.(2022)의 ChCl:EG 고온 열분해 사례처럼, 온도 스윕 실험 전 후보 DES의 열적 안정성 문헌을 먼저 확인해 실험 온도 상한을 안전하게 설정.
+[할 일] 시뮬레이션 SW 경로 확정 필요 — COSMOtherm/TmoleX/TURBOMOLE은 BIOVIA Materials Studio에 내장되어 있지 않은 별도 라이선스 상용 소프트웨어(확인됨, 2026-08-10). 랩실에 COSMOtherm 또는 TmoleX/TURBOMOLE 라이선스가 실제로 있는지 확인 후: (a) 있으면 위 표준 워크플로우 그대로 채택, (b) 없으면 openCOSMO-RS(TUHH, Python/C++, GitHub 공개) 또는 COSMO-SAC(Bell et al. 2020 벤치마크 구현 + Ferrarini et al. 2018의 GAMESS 기반 완전 무료 파이프라인) 중 하나로 대체 경로 검토. 동현이 랩실 도착 후 확인 예정.
+9. 전체 참고문헌 목록
+총 35편, OpenAlex(pyalex)로 서지사항을 검증했다. 
+모든 DOI는 https://doi.org/ 뒤에 이어붙이면 원문 링크로 연결되도록 설정해놓았다.
+10. 부록(미주)
+=== TABLE 0 ===
+항목 | 내용
+핵심 워크플로우 | ① 문헌 데이터 기반 지도학습 예측(스크리닝) 
+② 시뮬레이션과 실제 실험으로 검증 
+③ 머신러닝, 시뮬레이션, 실험 3자 비교
+대상 기간 | 8/07~8/31 (1차 스크리닝+파일럿 실험) 
+9/1~9/20 본 실험
+9/21~9/30발표자료 제출
+10/06 본선 발표 BEXCO
+팀원 역할 | 동현(파이프라인 총괄+시뮬레이션)
+영진(ML 스크리닝 모델)
+민이(이론검토+실제 침출실험)
+민규(문헌조사 보조+검증프로그램)
+대상 용매 | DES 전반
+데이터 규모 목표 | 문헌 근거(Topliss & Costello 1972 등)로 '수백~수천 개 + 능동학습/베이지안 최적화'
+검증 방식 | k-fold(가능하면 nested) 교차검증 + 소량 외부검증 + y-스크램블링 병행 (QSAR 분야 표준, Tropsha 2010 등 근거)
+=== TABLE 1 ===
+우리가 사용하는 표현 | 정확한 개념 | 설명
+강화학습 | 지도학습 
+(Supervised Learning) | 강화학습은 행동→보상을 반복하며 정책을 갱신하는 학습(예: 알파고). 팀이 하려는 것은 이미 정답(실험값)이 있는 데이터로 학습하는 지도학습. '정답을 숨겨놓고 맞추게 한다'는 표현 자체는 홀드아웃 검증을 정확히 이해한 것
+모델이 다음에 뭘 시도할지 스스로 찾는다 | 능동학습 
+(Active Learning) / 베이지안 최적화
+(Basian Optimization) | 데이터가 적어도 효율적으로 탐색 가능한 기법. 데이터 부족 문제의 실질적 해법으로 도입 검토 권장
+스크리닝이나=스캔 | 스크리닝 
+(Virtual Screening) | 후보군을 빠르고 저렴하게 훑어 유망 소수만 추리는 과정.
+논문→ML→스크리닝 | QSAR 
+(Quantitative Structure–Activity Relationship) | 분자 구조, 조성과 물성/효율 간 정량적 관계를 모델링하는 화학정보학 분야. 
+팀 접근법은 QSAR의 확장판
+=== TABLE 2 ===
+구분 | 정의 | 핵심 조건
+DES 
+(Deep Eutectic Solvent) | HBA(수소결합수용체)+HBD(수소결합공여체)를 특정 몰비로 섞었을 때 각 성분의 녹는점보다 훨씬 낮은 공융점을 형성해 상온에서 액체가 되는 혼합물 | 특정 조성비에서만 액체가 된다는 조건(공융점 형성)이 정의의 핵심
+이종 유기산 혼합 침출계 | 서로 다른 유기산 두 가지를 물에 녹여 만든 혼합 침출 수용액. 공융점 형성 여부와 무관 | 공융점을 형성하지 않아도 성립 — 그냥 '산 두 개 섞은 수용액'
+NADES (Natural DES) | 유기산-유기산 조합도 조성비에 따라 실제로 공융 혼합물을 형성하는 경우 (자연유래 성분 기반) | DES와 혼합산 수용액 사이의 중간 지대
+=== TABLE 3 ===
+Citation | DOI | 검증 | 원문확인
+Burgess, Okonkwo & He 2024, 폐리튬전지 구연산+말레산 혼합산 침출 (J. Material Cycles Waste Manag.) | 10.1007/s10163-024-02041-2 | VERIFIED | 부분
+Golmohammadzadeh, Rashchi & Vahidi 2017, 유기산 Li/Co 회수 RSM (Waste Management) | 10.1016/j.wasman.2017.03.037 | VERIFIED | 부분
+Roshanfar, Golmohammadzadeh & Rashchi 2018, gluconic+lactic acid Li/Co 회수 (J. Environ. Chem. Eng.) | 10.1016/j.jece.2018.11.039 | VERIFIED | 예 (전문초록)
+Gergorić et al. 2018, NdFeB 자석 유기산 희토류 침출 (Metals) | 10.3390/met8090721 | VERIFIED | 예 (전문초록)
+=== TABLE 4 ===
+Citation | DOI | 검증 | 원문확인
+Amusa et al. 2025, DES 675개 COSMO-RS 스크리닝→8개 실험검증 (Sustainable Materials and Technologies) | 10.1016/j.susmat.2025.e01383 | VERIFIED | 예 (2026-08-10 전문확보)
+Peeters, Binnemans & Riaño 2020, ChCl-구연산 DES 코발트 회수 (Green Chemistry) | 10.1039/d0gc00940g | VERIFIED | 예
+Lu et al. 2022, ChCl:malonic acid DES 고효율 침출 (Environmental Research) | 10.1016/j.envres.2022.113286 | VERIFIED | 예 (전문초록)
+Chen et al. 2022, PEG–아스코르빈산 DES LCO 회수 (Green Chemical Engineering) | 10.1016/j.gce.2022.06.005 | VERIFIED | 예
+Yu et al. 2022, ChCl DES 코발트 회수 (Green Processing and Synthesis) | 10.1515/gps-2022-0073 | VERIFIED | 예
+Peeters et al. 2022, ChCl:EG DES 고온 열분해 (Green Chemistry) | 10.1039/d2gc02075k | VERIFIED | 예
+Thompson et al. 2022, 옥살산:ChCl DES Ni/Co/Mn 선택적 분리 (Green Chemistry) | 10.1039/d2gc00606e | VERIFIED | 예
+=== TABLE 5 ===
+Citation | DOI | 검증 | 핵심 데이터 규모
+Kovács et al. 2020, NADES 물성 모델링 리뷰 (ChemSusChem) | 10.1002/cssc.202000286 | VERIFIED | 리뷰(N/A)
+Mohan et al. 2024, ML 기반 DES 점도 예측 (J. Chem. Theory Comput.) | 10.1021/acs.jctc.3c01163 | VERIFIED | 670개 DES, R²=0.99
+Abdollahzadeh et al. 2022, ML 기반 DES 밀도 추정 (Scientific Reports) | 10.1038/s41598-022-08842-5 | VERIFIED | 149개 DES, R²=0.998
+Lemaoui et al. 2020, COSMO-RS σ-profile 기반 QSPR 전도도 예측 (IECR) | 10.1021/acs.iecr.0c02542 | VERIFIED | 236개 측정치, 21개 DES
+Wang et al. 2021, Random Forest 기반 CO2 용해도 예측 (Green Chem. Eng.) | 10.1016/j.gce.2021.08.002 | VERIFIED | 1,011개 데이터
+Duarte de Alencar et al. 2024, ANN 기반 DES 점도 예측 (ACS Sustain. Chem. Eng.) | 10.1021/acssuschemeng.3c07219 | VERIFIED | 1,891개 측정치, 279개 조성
+=== TABLE 6 ===
+Citation | DOI | 검증 | 원문확인
+Cao et al. 2017, 아르테미시닌 추출용 소수성 DES (ACS Sustain. Chem. Eng.) | 10.1021/acssuschemeng.6b03092 | VERIFIED | 예
+Cao et al. 2018, 은행잎 프로안토시아니딘 추출 (J. Pharm. Biomed. Anal.) | 10.1016/j.jpba.2018.06.007 | VERIFIED | 예 (전문초록)
+Zheng et al. 2021, 조 겨 페놀 추출 (LWT) | 10.1016/j.lwt.2021.112740 | VERIFIED | 예
+Pal & Jadeja 2019, 양파껍질 페놀 추출 Box-Behnken (J. Food Sci. Technol.) | 10.1007/s13197-019-03891-7 | VERIFIED | 예 (전문 PMC)
+Naseem et al. 2021, Mentha arvensis 파이토케미컬 추출 (Biomass Conv. Biorefin.) | 10.1007/s13399-021-01617-4 | VERIFIED | 예 (2026-08-10 전문확보)
+Almashjary et al. 2018, ChCl 기반 DES 탈황 최적화 (Fuel) | 10.1016/j.fuel.2018.08.005 | VERIFIED | 예 (2026-08-10 전문확보, 방법론 확인)
+=== TABLE 7 ===
+Citation | DOI | 검증 | 원문확인
+Zurob et al. 2020, NADES 설계 for 하이드록시타이로솔 추출 (Sep. Purif. Technol.) | 10.1016/j.seppur.2020.117054 | VERIFIED | 예 (2026-08-10 전문확보)
+Jelinski & Cysewski 2018, COSMO-RS 기반 NADES 126개 스크리닝 (J. Mol. Model.) | 10.1007/s00894-018-3700-1 | VERIFIED | 예 (PMC 전문)
+Abranches et al. 2019, COSMO-RS로 ChCl 제약용 공융용매 설계 (Fluid Phase Equilib.) | 10.1016/j.fluid.2019.06.005 | VERIFIED | 예 (전문초록)
+Qin et al. 2024, 베이지안 실험설계 기반 그린용매 혼합계 선정 (ACS Sustain. Chem. Eng.) | 10.1021/acssuschemeng.4c07423 | VERIFIED | 예 (2026-08-10 전문확보)
+=== TABLE 8 ===
+Citation | DOI | 검증
+Tolmachev et al. 2022, DES 컴퓨터 시뮬레이션의 난제 (Int. J. Mol. Sci.) | 10.3390/ijms23020645 | VERIFIED
+Velez & Acevedo 2022, DES 시뮬레이션의 진전 (WIREs Comput. Mol. Sci.) | 10.1002/wcms.1598 | VERIFIED
+=== TABLE 9 ===
+Citation | DOI | 검증 | 원문확인
+Martins, Pinho & Coutinho 2018, 공융/DES 혼합물의 본질 (J. Solution Chem.) | 10.1007/s10953-018-0793-1 | VERIFIED | 예 (2026-08-10 전문확보)
+Hammond, Bowron & Edler 2017, 물이 DES 나노구조에 미치는 영향 (Angew. Chem. Int. Ed.) | 10.1002/anie.201702486 | VERIFIED | 예
+Abranches & Coutinho 2023, DES에 대한 통념 총정리 (Annu. Rev. Chem. Biomol. Eng.) | 10.1146/annurev-chembioeng-101121-085323 | VERIFIED | 예 (전문)
+Abranches & Coutinho 2022, Type V DES 설계 가이드 (Curr. Opin. Green Sustain. Chem.) | 10.1016/j.cogsc.2022.100612 | VERIFIED | 예 (전문)
+Abranches et al. 2019, 페놀계 HBD와 Type V DES (Chem. Commun.) | 10.1039/c9cc04846d | VERIFIED | 예
+Kollau et al. 2018, DES 액체창(liquid window) 정량화 (Chem. Commun.) | 10.1039/c8cc05815f | VERIFIED | 예 (전문, 2026-08-10)
+Alizadeh et al. 2020, ChCl:EG DES AIMD 조성효과 (J. Phys. Chem. B) | 10.1021/acs.jpcb.0c04844 | VERIFIED | 예 (전문, 2026-08-10)
+=== TABLE 10 ===
+Citation | DOI | 검증
+Binnemans & Jones 2023, IL/DES 추출야금 분야의 학계-산업 괴리 (J. Sustainable Metallurgy) | 10.1007/s40831-023-00681-6 | VERIFIED
+=== TABLE 11 ===
+구분 | 저자·제목·저널 | DOI | 검증
+6.1 | Burgess, C., Okonkwo, E.G., He, Y. (2024) "Evaluating the performance of citric acid and maleic acid for mixed-acid leaching of critical metals from spent lithium-ion batteries", J. Material Cycles and Waste Management | 10.1007/s10163-024-02041-2 | VERIFIED
+6.1 | Golmohammadzadeh, R., Rashchi, F., Vahidi, E. (2017) "Recovery of lithium and cobalt from spent lithium-ion batteries using organic acids: Process optimization and kinetic aspects", Waste Management | 10.1016/j.wasman.2017.03.037 | VERIFIED
+6.1 | Roshanfar, M., Golmohammadzadeh, R., Rashchi, F. (2018) "An environmentally friendly method for recovery of lithium and cobalt from spent lithium-ion batteries using gluconic and lactic acids", J. Environmental Chemical Engineering | 10.1016/j.jece.2018.11.039 | VERIFIED
+6.1 | Gergorić, M., Ravaux, C., Steenari, B-M., Espegren, F., Retegan, T. (2018) "Leaching and Recovery of Rare-Earth Elements from Neodymium Magnet Waste Using Organic Acids", Metals | 10.3390/met8090721 | VERIFIED
+6.2 | Amusa, H.K., Lemaoui, T., Almustafa, G., Darwish, A.S., Banat, F. (2025) "Advancing circular battery recycling by systematically screening novel deep eutectic solvents for sustainable metal recovery", Sustainable Materials and Technologies | 10.1016/j.susmat.2025.e01383 | VERIFIED
+6.2 | Peeters, N., Binnemans, K., Riaño, S. (2020) "Solvometallurgical recovery of cobalt from lithium-ion battery cathode materials using deep-eutectic solvents", Green Chemistry | 10.1039/d0gc00940g | VERIFIED
+6.2 | Lu, B., Du, R., Wang, G., Wang, Y., Dong, S. (2022) "High-efficiency leaching of valuable metals from waste Li-ion batteries using deep eutectic solvents", Environmental Research | 10.1016/j.envres.2022.113286 | VERIFIED
+6.2 | Chen, Y., Wang, Y., Bai, Y., Feng, M., Zhou, F. (2022) "Mild and efficient recovery of lithium-ion battery cathode material by deep eutectic solvents with natural and cheap components", Green Chemical Engineering | 10.1016/j.gce.2022.06.005 | VERIFIED
+6.2 | Yu, H., Wang, S., Li, Y., Qiao, Q., Wang, K. (2022) "Recovery of cobalt from spent lithium-ion battery cathode materials by using choline chloride-based deep eutectic solvent", Green Processing and Synthesis | 10.1515/gps-2022-0073 | VERIFIED
+6.2 | Peeters, N., Janssens, K., De Vos, D., Binnemans, K., Riaño, S. (2022) "Choline chloride–ethylene glycol based DES as lixiviants for cobalt recovery: are these solvents really green in high-temperature processes?", Green Chemistry | 10.1039/d2gc02075k | VERIFIED
+6.2 | Thompson, D.L., Pateli, I.M., Lei, C., Jarvis, A., Abbott, A.P. (2022) "Separation of nickel from cobalt and manganese in lithium ion batteries using deep eutectic solvents", Green Chemistry | 10.1039/d2gc00606e | VERIFIED
+6.3 | Kovács, A., Neyts, E.C., Cornet, I., Wijnants, M., Billen, P. (2020) "Modeling the Physicochemical Properties of Natural Deep Eutectic Solvents", ChemSusChem | 10.1002/cssc.202000286 | VERIFIED
+6.3 | Mohan, M., Jetti, K.D., Smith, M.D., Demerdash, O., Kidder, M.K. (2024) "Accurate Machine Learning for Predicting the Viscosities of Deep Eutectic Solvents", J. Chemical Theory and Computation | 10.1021/acs.jctc.3c01163 | VERIFIED
+6.3 | Abdollahzadeh, M.J., Khosravi, M., Khire Masjidi, B.H., Behbahan, A.S., Bagherzadeh, A. (2022) "Estimating the density of deep eutectic solvents applying supervised machine learning techniques", Scientific Reports | 10.1038/s41598-022-08842-5 | VERIFIED
+6.3 | Lemaoui, T., Darwish, A.S., Hammoudi, N., Abu Hatab, F., Attoui, A. (2020) "Prediction of Electrical Conductivity of DES Using COSMO-RS Sigma Profiles as Molecular Descriptors: A QSPR Study", Ind. Eng. Chem. Research | 10.1021/acs.iecr.0c02542 | VERIFIED
+6.3 | Wang, J., Song, Z., Chen, L., Xu, T., Deng, L. (2021) "Prediction of CO2 solubility in deep eutectic solvents using random forest model based on COSMO-RS-derived descriptors", Green Chemical Engineering | 10.1016/j.gce.2021.08.002 | VERIFIED
+6.3 | Duarte de Alencar, L.V.T., Rodriguez-Reartes, S.B., Tavares, F.W., Llovell, F. (2024) "Assessing Viscosity in Sustainable Deep Eutectic Solvents and Cosolvent Mixtures: An ANN-Based Molecular Approach", ACS Sustainable Chem. & Eng. | 10.1021/acssuschemeng.3c07219 | VERIFIED
+6.4 | Cao, J., Yang, M., Cao, F., Wang, J., Su, E. (2017) "Well-Designed Hydrophobic Deep Eutectic Solvents As Green and Efficient Media for the Extraction of Artemisinin", ACS Sustainable Chem. & Eng. | 10.1021/acssuschemeng.6b03092 | VERIFIED
+6.4 | Cao, J., Chen, L., Li, M., Cao, F., Zhao, L. (2018) "Efficient extraction of proanthocyanidin from Ginkgo biloba leaves employing rationally designed DES-water mixture", J. Pharmaceutical and Biomedical Analysis | 10.1016/j.jpba.2018.06.007 | VERIFIED
+6.4 | Zheng, B., Yuan, Y., Xiang, J., Jin, W., Johnson, J.B. (2021) "Green extraction of phenolic compounds from foxtail millet bran by ultrasonic-assisted DES extraction", LWT | 10.1016/j.lwt.2021.112740 | VERIFIED
+6.4 | Pal, C.B.T., Jadeja, G.C. (2019) "Microwave-assisted DES extraction of phenolic antioxidants from onion peel: a Box-Behnken design approach", J. Food Science and Technology | 10.1007/s13197-019-03891-7 | VERIFIED
+6.4 | Naseem, Z., Hanif, M.A., Zahid, M., Tahir, S., Anjum, F. (2021) "Ultrasound-assisted DES-based extraction of phytochemicals from Mentha arvensis: optimization using Box-Behnken design", Biomass Conversion and Biorefinery | 10.1007/s13399-021-01617-4 | VERIFIED
+6.4 | Almashjary, K.H.O., Khalid, M., Dharaskar, S., Jagadish, P., Walvekar, R. (2018) "Optimisation of extractive desulfurization using Choline Chloride-based deep eutectic solvents", Fuel | 10.1016/j.fuel.2018.08.005 | VERIFIED
+6.5 | Zurob, E., Cabezas, R., Villarroel, E., Rosas, N., Merlet, G. (2020) "Design of natural deep eutectic solvents for the ultrasound-assisted extraction of hydroxytyrosol supported by COSMO-RS", Separation and Purification Technology | 10.1016/j.seppur.2020.117054 | VERIFIED
+6.5 | Jelinski, T., Cysewski, P. (2018) "Application of a computational model of NADES utilizing COSMO-RS for screening of solvents with high solubility of rutin", J. Molecular Modeling | 10.1007/s00894-018-3700-1 | VERIFIED
+6.5 | Abranches, D.O., Larriba, M., Silva, L.P., Melle-Franco, M., Palomar, J. (2019) "Using COSMO-RS to design choline chloride pharmaceutical eutectic solvents", Fluid Phase Equilibria | 10.1016/j.fluid.2019.06.005 | VERIFIED
+6.5 | Qin, S., Omolabake, S., Diaby, A., Li, J., González, L.D. (2024) "Identifying Green Solvent Mixtures for Bioproduct Separation Using Bayesian Experimental Design", ACS Sustainable Chem. & Eng. | 10.1021/acssuschemeng.4c07423 | VERIFIED
+6.6 | Tolmachev, D., Lukasheva, N.V., Ramazanov, R.R., Nazarychev, V.M., Borzdun, N.I. (2022) "Computer Simulations of Deep Eutectic Solvents: Challenges, Solutions, and Perspectives", Int. J. Molecular Sciences | 10.3390/ijms23020645 | VERIFIED
+6.6 | Velez, C., Acevedo, O. (2022) "Simulation of deep eutectic solvents: Progress to promises", WIREs Computational Molecular Science | 10.1002/wcms.1598 | VERIFIED
+6.7 | Martins, M.A.R., Pinho, S.P., Coutinho, J.A.P. (2018) "Insights into the Nature of Eutectic and Deep Eutectic Mixtures", J. Solution Chemistry | 10.1007/s10953-018-0793-1 | VERIFIED
+6.7 | Hammond, O.S., Bowron, D.T., Edler, K.J. (2017) "The Effect of Water upon Deep Eutectic Solvent Nanostructure: An Unusual Transition from Ionic Mixture to Aqueous Solution", Angewandte Chemie Int. Ed. | 10.1002/anie.201702486 | VERIFIED
+6.7 | Abranches, D.O., Coutinho, J.A.P. (2023) "Everything You Wanted to Know about Deep Eutectic Solvents but Were Afraid to Be Told", Annual Review of Chemical and Biomolecular Engineering | 10.1146/annurev-chembioeng-101121-085323 | VERIFIED
+6.7 | Abranches, D.O., Coutinho, J.A.P. (2022) "Type V deep eutectic solvents: Design and applications", Current Opinion in Green and Sustainable Chemistry | 10.1016/j.cogsc.2022.100612 | VERIFIED
+6.7 | Abranches, D.O., Martins, M.A.R., Silva, L.P., Schaeffer, N., Pinho, S.P. (2019) "Phenolic hydrogen bond donors in the formation of non-ionic deep eutectic solvents: the quest for type V DES", Chemical Communications | 10.1039/c9cc04846d | VERIFIED
+6.8 | Binnemans, K., Jones, P.T. (2023) "Ionic Liquids and Deep-Eutectic Solvents in Extractive Metallurgy: Mismatch Between Academic Research and Industrial Applicability", J. Sustainable Metallurgy | 10.1007/s40831-023-00681-6 | VERIFIED
+6.7 | Kollau, L.J.B.M., Vis, M., van den Bruinhorst, A., Esteves, A.C.C., Tuinier, R. (2018) "Quantification of the liquid window of deep eutectic solvents", Chemical Communications | 10.1039/c8cc05815f | VERIFIED
+6.7 | Alizadeh, V., Malberg, F., Pádua, A.A.H., Kirchner, B. (2020) "Are There Magic Compositions in Deep Eutectic Solvents? Effects of Composition and Water Content in Choline Chloride/Ethylene Glycol from Ab Initio Molecular Dynamics", J. Physical Chemistry B | 10.1021/acs.jpcb.0c04844 | VERIFIED

@@ -1,0 +1,13 @@
+! def2-TZVP def2-TZVP/C def2/JK RIJK CPCM(water) MORead
+%moinp "NiCl4_opt.gbw"
+%pal nprocs 1 end
+%maxcore 6000
+%casscf
+  nel 8
+  norb 5
+  mult 3,1
+  nroots 10,15
+  actorbs dorbs
+  PTMethod SC_NEVPT2
+end
+* xyzfile -2 3 NiCl4_opt.xyz

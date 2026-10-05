@@ -1,0 +1,7 @@
+NiCl4 xtb,opt,freq,dd
+Ni_aq6 xtb,opt,freq,dd
+NiCl2_aq4 xtb,opt,freq
+NiCl3_aq1 xtb,opt,freq
+NiCl1_aq5 xtb,opt,freq
+H2O xtb,opt,freq
+Cl_ion sp

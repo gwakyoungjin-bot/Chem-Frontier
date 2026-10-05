@@ -1,0 +1,6 @@
+! r2SCAN-3c TightOpt CPCM(water)
+%geom MaxIter 400 end
+%cpcm smd true SMDsolvent "water" end
+%pal nprocs 1 end
+%maxcore 6000
+* xyzfile 1 3 NiCl1_aq5_geo.xyz

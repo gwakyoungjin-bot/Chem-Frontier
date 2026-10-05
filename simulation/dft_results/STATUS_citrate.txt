@@ -1,0 +1,8 @@
+[09-24 00:49] H3Cit xtb OK try=1 3s 
+[09-24 00:49] NiCit_aq4 xtb OK try=1 8s 
+[09-24 01:09] H3Cit opt OK try=1 1192s 
+[09-24 02:29] H3Cit freq OK try=1 4816s 
+[09-24 02:29] H3Cit DONE
+[09-24 05:10] NiCit_aq4 opt OK try=1 15660s 
+[09-24 12:03] NiCit_aq4 freq OK try=1 24773s 
+[09-24 12:03] NiCit_aq4 DONE

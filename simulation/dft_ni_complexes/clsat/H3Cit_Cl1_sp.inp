@@ -1,0 +1,5 @@
+! r2SCAN-3c CPCM(water)
+%cpcm smd true SMDsolvent "water" end
+%pal nprocs 1 end
+%maxcore 6000
+* xyzfile -1 1 H3Cit_Cl1_sp.xyz

@@ -1,0 +1,6 @@
+NiCl3_aq3_fac xtb,opt,freq
+NiCl3_aq3_mer xtb,opt,freq
+CoCl3_aq3_fac xtb,opt,freq
+CoCl3_aq3_mer xtb,opt,freq
+MnCl3_aq3_fac xtb,opt,freq
+MnCl3_aq3_mer xtb,opt,freq
